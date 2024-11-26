@@ -1,4 +1,4 @@
-package main.java.model.domain;
+package model.domain;
 
 public class Recommendation {
 
