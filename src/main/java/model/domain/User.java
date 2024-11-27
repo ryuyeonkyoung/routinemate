@@ -1,29 +1,47 @@
 package model.domain;
 
-import java.util.Date;
-
+/**
+ * 사용자 관리를 위해 필요한 도메인 클래스. USERINFO 테이블과 대응됨
+ */
 public class User {
     private String userId;
     private String password;
-    private String username;
+    private String name;
     private String email;
-    private Date birthDate;
-    private boolean isMorningPerson; // true: 아침형, false: 저녁형
+    private String phone;
+    private int commId;
+    private String commName;
 
-    // 생성자
-    public User(String userId, String password, String username, String email, Date birthDate, boolean isMorningPerson) {
+    public User() { }       // 기본 생성자
+    
+    public User(String userId, String password, String name, String email, String phone, int commId) {
         this.userId = userId;
         this.password = password;
-        this.username = username;
+        this.name = name;
         this.email = email;
-        this.birthDate = birthDate;
-        this.isMorningPerson = isMorningPerson;
+        this.phone = phone;
+        this.commId = commId;
+    }
+    
+    public User(String userId, String password, String name, String email, String phone, int commId, String commName) {
+        this(userId, password, name, email, phone, commId);
+        this.commName = commName;
     }
 
-    // 기본 생성자
-    public User() {}
-
-    // Getters and Setters
+    public User(String userId, String name, String email, String phone) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;     
+    }
+    
+    /*public void update(User updateUser) {
+        this.password = updateUser.password;
+        this.name = updateUser.name;
+        this.email = updateUser.email;
+        this.phone = updateUser.phone;
+    }*/
+    
     public String getUserId() {
         return userId;
     }
@@ -40,12 +58,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -56,19 +74,46 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public boolean isMorningPerson() {
-        return isMorningPerson;
+    public int getCommId() {
+        return commId;
     }
 
-    public void setMorningPerson(boolean isMorningPerson) {
-        this.isMorningPerson = isMorningPerson;
+    public void setCommId(int commId) {
+        this.commId = commId;
     }
+
+    public String getCommName() {
+        return commName;
+    }
+
+    public void setCommName(String commName) {
+        this.commName = commName;
+    }
+
+    
+    /* 비밀번호 검사 */
+    public boolean matchPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+        return this.password.equals(password);
+    }
+    
+    public boolean isSameUser(String userid) {
+        return this.userId.equals(userid);
+    }
+
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + ", phone="
+                + phone + ", commId=" + commId + "]";
+    }   
 }
