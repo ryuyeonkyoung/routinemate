@@ -93,7 +93,7 @@ public class UserDAO {
      */
     public User findUser(String userId) throws SQLException {
         String sql = "SELECT password, username, email, birth_date, is_morning_person "
-                    + "FROM USERINFO u LEFT OUTER JOIN Community c ON u.commId = c.cId "
+                    + "FROM USERINFO "
                     + "WHERE user_id=? ";              
         jdbcUtil.setSqlAndParameters(sql, new Object[] {userId});   // JDBCUtil에 query문과 매개 변수 설정
 
@@ -116,6 +116,41 @@ public class UserDAO {
         }
         return null;
     }
+    
+    /**
+     * 전체 사용자 정보를 검색하여 List에 저장 및 반환
+     */
+    public List<User> findUserList() throws SQLException {
+        String sql = "SELECT user_id, username, email, birth_date, is_morning_person " 
+                   + "FROM USERINFO "
+                   + "ORDER BY userId";
+        jdbcUtil.setSqlAndParameters(sql, null);
+                    
+        try {
+            ResultSet rs = jdbcUtil.executeQuery(); 
+            List<User> userList = new ArrayList<User>();    // User들의 리스트 생성
+            while (rs.next()) {
+                // 1. user 객체 생성 및 정보 저장
+                User user = new User(
+                    rs.getString("user_id"),
+                    null,
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getDate("birth_date"),
+                    rs.getBoolean("is_morning_person"));
+                // 2. userList에 user 객체 저장
+                userList.add(user);
+            }       
+            return userList;                    
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            jdbcUtil.close();
+        }
+        return null;
+    }
+    
 
     /**
      * 주어진 사용자 ID에 해당하는 사용자가 존재하는지 검사 
