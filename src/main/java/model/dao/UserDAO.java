@@ -9,7 +9,8 @@ import model.domain.User;
 
 /**
  * 사용자 관리를 위해 데이터베이스 작업을 전담하는 DAO 클래스
- * USERINFO 테이블에 사용자 정보를 추가, 수정, 삭제, 검색 수행 
+ * USERINFO 테이블에 사용자 정보를 추가, 수정, 삭제, 검색 수행
+ * DB와 연동하여 데이터 처리 및 관리 수행
  */
 public class UserDAO {
     private JDBCUtil jdbcUtil = null;
@@ -93,7 +94,7 @@ public class UserDAO {
      */
     public User findUser(String userId) throws SQLException {
         String sql = "SELECT password, username, email, birth_date, is_morning_person "
-                    + "FROM USERINFO u LEFT OUTER JOIN Community c ON u.commId = c.cId "
+                    + "FROM USERINFO"
                     + "WHERE user_id=? ";              
         jdbcUtil.setSqlAndParameters(sql, new Object[] {userId});   // JDBCUtil에 query문과 매개 변수 설정
 
@@ -113,6 +114,40 @@ public class UserDAO {
             ex.printStackTrace();
         } finally {
             jdbcUtil.close();       // resource 반환
+        }
+        return null;
+    }
+    
+    /**
+     * 전체 사용자 정보를 검색하여 List에 저장 및 반환
+     */
+    public List<User> findUserList() throws SQLException {
+        String sql = "SELECT password, username, email, birth_date, is_morning_person " 
+                   + "FROM USERINFO"
+                   + "ORDER BY user_id";
+        jdbcUtil.setSqlAndParameters(sql, null);
+                    
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();    
+            List<User> userList = new ArrayList<User>();    // User들의 리스트 생성
+            while (rs.next()) {
+                // 1. user 객체 생성 및 정보 저장
+                User user = new User(
+                    rs.getString("user_id"),
+                    rs.getString("password"),
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getDate("birth_date"),
+                    rs.getBoolean("is_morning_person"));
+                // 2. userList에 추가
+                userList.add(user);
+            }       
+            return userList;                    
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            jdbcUtil.close();
         }
         return null;
     }
