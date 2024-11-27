@@ -1,4 +1,4 @@
-package model.dao;
+package model.domain;
 
 import java.util.List;
 

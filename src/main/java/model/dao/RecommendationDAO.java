@@ -3,6 +3,8 @@ package model.dao;
 import java.sql.*;
 import java.util.*;
 
+import model.domain.Recommendation;
+
 public class RecommendationDAO {
     private JDBCUtil jdbcUtil = null;
 
