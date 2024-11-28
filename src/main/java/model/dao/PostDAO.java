@@ -1,157 +1,171 @@
 package model.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import model.domain.Post;
-//import model.domain.User;
 import model.domain.PostTask;
+
+import java.sql.ResultSet;
+//import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class PostDAO {
     private JDBCUtil jdbcUtil = null;
-    
+
     public PostDAO() {
         jdbcUtil = new JDBCUtil();  // JDBCUtil 객체 생성
     }
 
-    // Post와 Task 목록을 함께 저장하는 메서드
-    public int addPostWithTasks(Post post) throws SQLException {
-        String postSql = "INSERT INTO posts (post_id, post_title, post_date, post_author) VALUES (?, ?, ?, ?)";
-        String taskSql = "INSERT INTO tasks (post_task_id, post_id, user_id, order, description, isCompleted) VALUES (?, ?, ?, ?, ?, ?)";
+    /**
+     * Post와 관련된 Task를 포함하여 새 Post를 생성
+     */
+    public int createPost(Post post) {
+        String insertPostSQL = "INSERT INTO posts (postId, postTitle, postDate, postAuthor) VALUES (?, ?, ?, ?)";
+        String insertTaskSQL = "INSERT INTO post_tasks (taskId, taskOrder, description, isCompleted, postId) VALUES (?, ?, ?, ?, ?)";
 
-        Object[] postParams = { post.getPostId(), post.getPostTitle(), new java.sql.Date(post.getPostDate().getTime()), post.getPostAuthor() };
-        jdbcUtil.setSqlAndParameters(postSql, postParams);  // insert문과 매개 변수 설정
-        
         try {
-            int result = jdbcUtil.executeUpdate();  // Post insert 실행
-            
-            // Task insert 실행
+            // Post 삽입
+            jdbcUtil.setSqlAndParameters(insertPostSQL, new Object[]{
+                post.getPostId(),
+                post.getPostTitle(),
+                post.getPostDate(),
+                post.getPostAuthor()
+            });
+            jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
+
+            // Task 삽입
             for (PostTask task : post.getTasks()) {
-                Object[] taskParams = { task.getTaskId(), post.getPostId(), /*task.getUserId() merge 후 수정*/0, task.getOrder(), task.getDescription(), task.isCompleted()}; //, new java.sql.Date(task.getTaskDate().getTime())마지막 필드로 삭제
-                jdbcUtil.setSqlAndParameters(taskSql, taskParams);
-                jdbcUtil.executeUpdate();  // 개별 Task insert 실행
+                jdbcUtil.setSqlAndParameters(insertTaskSQL, new Object[]{
+                    task.getTaskId(),
+                    task.getOrder(),
+                    task.getDescription(),
+                    task.isCompleted(),
+                    post.getPostId()
+                });
+                jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
             }
-            
-            return result;
-        } catch (Exception ex) {
-            jdbcUtil.rollback();
-            ex.printStackTrace();
+
+            jdbcUtil.commit();  // 트랜잭션 커밋
+            return 1;  // 성공적으로 완료된 경우
+        } catch (Exception e) {
+            jdbcUtil.rollback();  // 예외 발생 시 트랜잭션 롤백
+            e.printStackTrace();  // 예외 출력 (로그를 추가할 수도 있음)
+            return 0;  // 실패를 나타내는 값
         } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();  // 리소스 반환
+            jdbcUtil.close();  // 자원 반환
         }
-        return 0;
     }
 
-    // 특정 Post와 관련된 Task 목록을 포함하여 조회
-    public Post getPostWithTasks(int postId) throws SQLException {
-        String postSql = "SELECT * FROM posts WHERE post_id = ?";
-        String taskSql = "SELECT * FROM tasks WHERE post_id = ?";
+    /**
+     * Post ID를 사용하여 Post와 관련된 Task를 조회
+     */
+    public Post getPostById(int postId) {
+        String selectPostSQL = "SELECT * FROM posts WHERE postId = ?";
+        String selectTasksSQL = "SELECT * FROM post_tasks WHERE postId = ?";
 
-        jdbcUtil.setSqlAndParameters(postSql, new Object[]{postId});
-        
         try {
-            ResultSet postRs = jdbcUtil.executeQuery();
-            Post post = null;
+            // Post 조회
+            jdbcUtil.setSqlAndParameters(selectPostSQL, new Object[]{postId});
+            ResultSet postRS = jdbcUtil.executeQuery();
 
-            if (postRs.next()) {
-                post = new Post();
-                post.setPostId(postRs.getInt("post_id"));
-                post.setPostTitle(postRs.getString("post_title"));
-                post.setPostDate(postRs.getDate("post_date"));
-                post.setPostAuthor(postRs.getString("post_author"));
-            }
-            postRs.close();
+            if (postRS.next()) {
+                String postTitle = postRS.getString("postTitle");
+                Date postDate = postRS.getDate("postDate");
+                String postAuthor = postRS.getString("postAuthor");
 
-            // Task 목록 조회
-            if (post != null) {
-                jdbcUtil.setSqlAndParameters(taskSql, new Object[]{postId});
-                ResultSet taskRs = jdbcUtil.executeQuery();
-
+                // Task 조회
+                jdbcUtil.setSqlAndParameters(selectTasksSQL, new Object[]{postId});
+                ResultSet taskRS = jdbcUtil.executeQuery();
                 List<PostTask> tasks = new ArrayList<>();
-                while (taskRs.next()) {
+
+                while (taskRS.next()) {
                     PostTask task = new PostTask();
-                    task.setTaskId(taskRs.getInt("post_task_id"));
-                    //task.setPostId(taskRs.getInt("post_id")); //필요성 검토
-                    //task.setUserId(taskRs.getInt("user_id")); //merge후 활성화 
-                    task.setOrder(taskRs.getInt("order"));
-                    task.setDescription(taskRs.getString("description"));
-                    task.setCompleted(taskRs.getBoolean("isCompleted"));
+                    task.setTaskId(taskRS.getInt("taskId"));
+                    task.setOrder(taskRS.getInt("taskOrder"));
+                    task.setDescription(taskRS.getString("description"));
+                    task.setCompleted(taskRS.getBoolean("isCompleted"));
                     tasks.add(task);
                 }
-                taskRs.close();
-                post.setTasks(tasks);
+
+                return new Post(postId, postTitle, postDate, postAuthor, tasks); // Post 반환
             }
-            return post;
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();  // 예외 출력
         } finally {
-            jdbcUtil.close();  // 리소스 반환
+            jdbcUtil.close();  // 자원 반환
         }
-        return null;
+        return null; // 결과가 없으면 null 반환
     }
 
-    // 특정 Post와 관련된 Task 목록을 포함하여 갱신
-    public int updatePostWithTasks(Post post) throws SQLException {
-        String postSql = "UPDATE posts SET post_title = ?, post_date = ?, post_author = ? WHERE post_id = ?";
-        String deleteTaskSql = "DELETE FROM tasks WHERE post_id = ?";
-        String insertTaskSql = "INSERT INTO tasks (post_task_id, post_id, user_id, order, description, isCompleted, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    /**
+     * Post와 관련된 모든 Task를 삭제
+     */
+    public int deletePost(int postId) {
+        String deleteTasksSQL = "DELETE FROM post_tasks WHERE postId = ?";
+        String deletePostSQL = "DELETE FROM posts WHERE postId = ?";
 
-        Object[] postParams = { post.getPostTitle(), new java.sql.Date(post.getPostDate().getTime()), post.getPostAuthor(), post.getPostId() };
-        jdbcUtil.setSqlAndParameters(postSql, postParams);  // update문과 매개 변수 설정
-        
         try {
-            int result = jdbcUtil.executeUpdate();  // Post update 실행
+            // Task 삭제
+            jdbcUtil.setSqlAndParameters(deleteTasksSQL, new Object[]{postId});
+            jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
+
+            // Post 삭제
+            jdbcUtil.setSqlAndParameters(deletePostSQL, new Object[]{postId});
+            jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
+
+            jdbcUtil.commit();  // 트랜잭션 커밋
+            return 1;
+        } catch (Exception e) {
+            jdbcUtil.rollback();  // 예외 발생 시 트랜잭션 롤백
+            e.printStackTrace();  // 예외 출력 (로그를 추가할 수도 있음)
+            return 0;  // 실패를 나타내는 값
+        } finally {
+            jdbcUtil.close();  // 자원 반환
+        }
+    }
+
+    /**
+     * Post와 Task를 수정
+     */
+    public int updatePost(Post post) {
+        String updatePostSQL = "UPDATE posts SET postTitle = ?, postDate = ?, postAuthor = ? WHERE postId = ?";
+        String deleteTasksSQL = "DELETE FROM post_tasks WHERE postId = ?";
+        String insertTaskSQL = "INSERT INTO post_tasks (taskId, taskOrder, description, isCompleted, postId) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            // Post 수정
+            jdbcUtil.setSqlAndParameters(updatePostSQL, new Object[]{
+                post.getPostTitle(),
+                post.getPostDate(),
+                post.getPostAuthor(),
+                post.getPostId()
+            });
+            jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
 
             // 기존 Task 삭제
-            jdbcUtil.setSqlAndParameters(deleteTaskSql, new Object[]{post.getPostId()});
-            jdbcUtil.executeUpdate();
+            jdbcUtil.setSqlAndParameters(deleteTasksSQL, new Object[]{post.getPostId()});
+            jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
 
             // 새로운 Task 삽입
             for (PostTask task : post.getTasks()) {
-                Object[] taskParams = { task.getTaskId(), post.getPostId(), /*task.getUserId() merge후 활성화*/ 0, task.getOrder(), task.getDescription(), task.isCompleted()};
-                jdbcUtil.setSqlAndParameters(insertTaskSql, taskParams);
-                jdbcUtil.executeUpdate();
+                jdbcUtil.setSqlAndParameters(insertTaskSQL, new Object[]{
+                    task.getTaskId(),
+                    task.getOrder(),
+                    task.getDescription(),
+                    task.isCompleted(),
+                    post.getPostId()
+                });
+                jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
             }
-            return result;
-            
-        } catch (Exception ex) {
-            jdbcUtil.rollback();
-            ex.printStackTrace();
+
+            jdbcUtil.commit();  // 트랜잭션 커밋
+            return 1;
+        } catch (Exception e) {
+            jdbcUtil.rollback();  // 예외 발생 시 트랜잭션 롤백
+            e.printStackTrace();  // 예외 출력 (로그를 추가할 수도 있음)
+            return 0;  // 실패를 나타내는 값
         } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();  // 리소스 반환
+            jdbcUtil.close();  // 자원 반환
         }
-        return 0;
-    }
-
-    // 특정 Post와 관련된 모든 Task 삭제
-    public int deletePostWithTasks(int postId) throws SQLException {
-        String deleteTaskSql = "DELETE FROM tasks WHERE post_id = ?";
-        String deletePostSql = "DELETE FROM posts WHERE post_id = ?";
-
-        try {
-            // 관련 Task 삭제
-            jdbcUtil.setSqlAndParameters(deleteTaskSql, new Object[]{postId});
-            jdbcUtil.executeUpdate();
-
-            // Post 삭제
-            jdbcUtil.setSqlAndParameters(deletePostSql, new Object[]{postId});
-            int result = jdbcUtil.executeUpdate();
-            
-            return result;
-            
-        } catch (Exception ex) {
-            jdbcUtil.rollback();
-            ex.printStackTrace();
-        } finally {
-            jdbcUtil.commit();
-            jdbcUtil.close();  // 리소스 반환
-        }
-        return 0;
     }
 }
