@@ -3,13 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>dbp.codingbaseone</groupId>
-	<artifactId>routinemate</artifactId>
+	<groupId>dbp</groupId>
+	<artifactId>UserMan3c</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>User Manager v3.0</name>
-	<description>routinemate teamproject</description>
-	
+	<name>User Manager v3.0c</name>
+	<description>based on MVC pattern, Bootstrap, and MyBatis</description>
 	<properties>
    		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
@@ -22,6 +21,7 @@
 		<jackson-databind.version>2.12.5</jackson-databind.version>
 		<junit.version>4.13.2</junit.version>
 		<oracle-jdbc-driver.version>21.3.0.0</oracle-jdbc-driver.version>
+		<mybatis.version>3.5.7</mybatis.version>
 	</properties>
 	
 	<dependencies>
@@ -84,17 +84,19 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<!-- MyBatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+
 		<!-- for unit test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>dbp</groupId>
-			<artifactId>UserMan2</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
