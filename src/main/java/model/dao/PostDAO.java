@@ -55,6 +55,53 @@ public class PostDAO {
             jdbcUtil.close();  // 자원 반환
         }
     }
+    
+    /** 
+     * 게시물 목록 조회
+     */
+    public List<Post> getPostList() {
+        String selectPostSQL = "SELECT * FROM posts";
+        String selectTasksSQL = "SELECT * FROM post_tasks WHERE postId = ?";
+        List<Post> postList = new ArrayList<>();
+
+        try {
+            // Post 목록 조회
+            jdbcUtil.setSqlAndParameters(selectPostSQL, new Object[]{});
+            ResultSet postRS = jdbcUtil.executeQuery();
+
+            while (postRS.next()) {
+                int postId = postRS.getInt("postId");
+                String postTitle = postRS.getString("postTitle");
+                Date postDate = postRS.getDate("postDate");
+                String postAuthor = postRS.getString("postAuthor");
+
+                // Task 조회
+                jdbcUtil.setSqlAndParameters(selectTasksSQL, new Object[]{postId});
+                ResultSet taskRS = jdbcUtil.executeQuery();
+                List<PostTask> tasks = new ArrayList<>();
+
+                while (taskRS.next()) {
+                    PostTask task = new PostTask();
+                    task.setTaskId(taskRS.getInt("taskId"));
+                    task.setOrder(taskRS.getInt("taskOrder"));
+                    task.setDescription(taskRS.getString("description"));
+                    task.setCompleted(taskRS.getBoolean("isCompleted"));
+                    tasks.add(task);
+                }
+
+                // Post 객체에 Task 리스트 포함
+                postList.add(new Post(postId, postTitle, postDate, postAuthor, tasks));
+            }
+
+            return postList;
+        } catch (Exception e) {
+            e.printStackTrace();  // 예외 처리
+        } finally {
+            jdbcUtil.close();  // 자원 반환
+        }
+
+        return null;  // 결과가 없으면 null 반환
+    }
 
     /**
      * Post ID를 사용하여 Post와 관련된 Task를 조회
