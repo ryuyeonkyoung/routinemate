@@ -55,6 +55,7 @@ public class PostDAO {
             jdbcUtil.close();  // 자원 반환
         }
     }
+
     
     /** 
      * 게시물 목록 조회
@@ -102,6 +103,7 @@ public class PostDAO {
 
         return null;  // 결과가 없으면 null 반환
     }
+
 
     /**
      * Post ID를 사용하여 Post와 관련된 Task를 조회
