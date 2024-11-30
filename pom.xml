@@ -25,12 +25,6 @@
 	</properties>
 	
 	<dependencies>
-		<!-- mybatis -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.5.7</version>
-		</dependency>
 		<!-- Servlet & JSP API -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
