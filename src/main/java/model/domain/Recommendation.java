@@ -4,25 +4,15 @@ import java.util.List;
 
 public class Recommendation {
     private int userId;
-    private List<Task> morningRoutineForMorningType;
-    private List<Task> afternoonRoutineForMorningType;
-    private List<Task> eveningRoutineForMorningType;
-    private List<Task> morningRoutineForEveningType;
-    private List<Task> afternoonRoutineForEveningType;
-    private List<Task> eveningRoutineForEveningType;
+    private List<String> morningRoutineForMorningType; // 아침형 루틴
+    private List<String> afternoonRoutineForMorningType; // 아침형 점심 루틴
+    private List<String> eveningRoutineForMorningType; // 아침형 저녁 루틴
 
-    // 생성자
-    public Recommendation() {
-        this.userId = 0;
-        this.morningRoutineForMorningType = null;
-        this.afternoonRoutineForMorningType = null;
-        this.eveningRoutineForMorningType = null;
-        this.morningRoutineForEveningType = null;
-        this.afternoonRoutineForEveningType = null;
-        this.eveningRoutineForEveningType = null;
-    }
+    private List<String> morningRoutineForEveningType; // 저녁형 아침 루틴
+    private List<String> afternoonRoutineForEveningType; // 저녁형 점심 루틴
+    private List<String> eveningRoutineForEveningType; // 저녁형 저녁 루틴
 
-    // Getter & Setter
+    // Getters and Setters
     public int getUserId() {
         return userId;
     }
@@ -31,52 +21,51 @@ public class Recommendation {
         this.userId = userId;
     }
 
-    public List<Task> getMorningRoutineForMorningType() {
+    public List<String> getMorningRoutineForMorningType() {
         return morningRoutineForMorningType;
     }
 
-    public void setMorningRoutineForMorningType(List<Task> morningRoutineForMorningType) {
+    public void setMorningRoutineForMorningType(List<String> morningRoutineForMorningType) {
         this.morningRoutineForMorningType = morningRoutineForMorningType;
     }
 
-    public List<Task> getAfternoonRoutineForMorningType() {
+    public List<String> getAfternoonRoutineForMorningType() {
         return afternoonRoutineForMorningType;
     }
 
-    public void setAfternoonRoutineForMorningType(List<Task> afternoonRoutineForMorningType) {
+    public void setAfternoonRoutineForMorningType(List<String> afternoonRoutineForMorningType) {
         this.afternoonRoutineForMorningType = afternoonRoutineForMorningType;
     }
 
-    public List<Task> getEveningRoutineForMorningType() {
+    public List<String> getEveningRoutineForMorningType() {
         return eveningRoutineForMorningType;
     }
 
-    public void setEveningRoutineForMorningType(List<Task> eveningRoutineForMorningType) {
+    public void setEveningRoutineForMorningType(List<String> eveningRoutineForMorningType) {
         this.eveningRoutineForMorningType = eveningRoutineForMorningType;
     }
 
-    public List<Task> getMorningRoutineForEveningType() {
+    public List<String> getMorningRoutineForEveningType() {
         return morningRoutineForEveningType;
     }
 
-    public void setMorningRoutineForEveningType(List<Task> morningRoutineForEveningType) {
+    public void setMorningRoutineForEveningType(List<String> morningRoutineForEveningType) {
         this.morningRoutineForEveningType = morningRoutineForEveningType;
     }
 
-    public List<Task> getAfternoonRoutineForEveningType() {
+    public List<String> getAfternoonRoutineForEveningType() {
         return afternoonRoutineForEveningType;
     }
 
-    public void setAfternoonRoutineForEveningType(List<Task> afternoonRoutineForEveningType) {
+    public void setAfternoonRoutineForEveningType(List<String> afternoonRoutineForEveningType) {
         this.afternoonRoutineForEveningType = afternoonRoutineForEveningType;
     }
 
-    public List<Task> getEveningRoutineForEveningType() {
+    public List<String> getEveningRoutineForEveningType() {
         return eveningRoutineForEveningType;
     }
 
-    public void setEveningRoutineForEveningType(List<Task> eveningRoutineForEveningType) {
+    public void setEveningRoutineForEveningType(List<String> eveningRoutineForEveningType) {
         this.eveningRoutineForEveningType = eveningRoutineForEveningType;
     }
 }
-
