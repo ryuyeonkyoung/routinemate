@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.*;
 
 import model.domain.Recommendation;
+import model.domain.User;
+import model.domain.Task;
 
 public class RecommendationDAO {
     private JDBCUtil jdbcUtil = null;
@@ -18,42 +20,42 @@ public class RecommendationDAO {
      */
     public Recommendation findRecommendationByUserId(int userId) throws SQLException {
         String sql = "SELECT userId, "
-                   + "morningRoutineForMorningType, afternoonRoutineForMorningType, eveningRoutineForMorningType, "
-                   + "morningRoutineForEveningType, afternoonRoutineForEveningType, eveningRoutineForEveningType, chronotype "
-                   + "FROM RECOMMENDATION WHERE userId = ?";
+                + "morningRoutineForMorningType, afternoonRoutineForMorningType, eveningRoutineForMorningType, "
+                + "morningRoutineForEveningType, afternoonRoutineForEveningType, eveningRoutineForEveningType, "
+                + "isMorningPerson " 
+                + "FROM RECOMMENDATION WHERE userId = ?";
 
-        jdbcUtil.setSqlAndParameters(sql, new Object[]{userId}); // query문과 매개 변수 설정
+     jdbcUtil.setSqlAndParameters(sql, new Object[]{userId}); // query문과 매개 변수 설정
 
-        try {
-            ResultSet rs = jdbcUtil.executeQuery();    // query 실행
-            if (rs.next()) {
-                Recommendation recommendation = new Recommendation();
-                recommendation.setUserId(rs.getInt("userId"));
+     try {
+         ResultSet rs = jdbcUtil.executeQuery();    // query 실행
+         if (rs.next()) {
+             Recommendation recommendation = new Recommendation();
+             recommendation.setUserId(rs.getInt("userId"));
 
-                // 사용자의 chronotype을 가져옵니다.
-                String chronotype = rs.getString("chronotype");
+             // 사용자의 chronotype을 결정 (isMorningPerson 값 기반)
+             boolean isMorningPerson = rs.getBoolean("isMorningPerson");
 
-                // chronotype에 맞는 루틴을 선택합니다.
-                if ("morning".equals(chronotype)) {
-                    // morning chronotype인 경우, morning 루틴에 맞는 데이터 설정
-                    recommendation.setMorningRoutineForMorningType(parseTaskIds(rs.getString("morningRoutineForMorningType")));
-                    recommendation.setAfternoonRoutineForMorningType(parseTaskIds(rs.getString("afternoonRoutineForMorningType")));
-                    recommendation.setEveningRoutineForMorningType(parseTaskIds(rs.getString("eveningRoutineForMorningType")));
-                } else if ("evening".equals(chronotype)) {
-                    // evening chronotype인 경우, evening 루틴에 맞는 데이터 설정
-                    recommendation.setMorningRoutineForEveningType(parseTaskIds(rs.getString("morningRoutineForEveningType")));
-                    recommendation.setAfternoonRoutineForEveningType(parseTaskIds(rs.getString("afternoonRoutineForEveningType")));
-                    recommendation.setEveningRoutineForEveningType(parseTaskIds(rs.getString("eveningRoutineForEveningType")));
-                }
+             if (isMorningPerson) {
+                 // 아침형 사용자의 루틴 설정
+                 recommendation.setMorningRoutineForMorningType(parseTaskIds(rs.getString("morningRoutineForMorningType")));
+                 recommendation.setAfternoonRoutineForMorningType(parseTaskIds(rs.getString("afternoonRoutineForMorningType")));
+                 recommendation.setEveningRoutineForMorningType(parseTaskIds(rs.getString("eveningRoutineForMorningType")));
+             } else {
+                 // 저녁형 사용자의 루틴 설정
+                 recommendation.setMorningRoutineForEveningType(parseTaskIds(rs.getString("morningRoutineForEveningType")));
+                 recommendation.setAfternoonRoutineForEveningType(parseTaskIds(rs.getString("afternoonRoutineForEveningType")));
+                 recommendation.setEveningRoutineForEveningType(parseTaskIds(rs.getString("eveningRoutineForEveningType")));
+             }
 
-                return recommendation;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            jdbcUtil.close();
-        }
-        return null;
+             return recommendation;
+         }
+     } catch (SQLException ex) {
+         ex.printStackTrace();
+     } finally {
+         jdbcUtil.close();
+     }
+     return null;
     }
 
     /**
@@ -77,15 +79,16 @@ public class RecommendationDAO {
     /**
      * 추천 루틴을 생성합니다. 
      * chronotype에 맞는 루틴을 저장합니다.
+
      */
-    public int createRecommendation(Recommendation recommendation) throws SQLException {
+    public int createRecommendation(User user, Recommendation recommendation) throws Exception {
         String sql = "INSERT INTO RECOMMENDATION (userId, "
                    + "morningRoutineForMorningType, afternoonRoutineForMorningType, eveningRoutineForMorningType, "
-                   + "morningRoutineForEveningType, afternoonRoutineForEveningType, eveningRoutineForEveningType, chronotype) "
+                   + "morningRoutineForEveningType, afternoonRoutineForEveningType, eveningRoutineForEveningType, isMorningPerson) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // chronotype에 따라 다르게 저장합니다.
-        String chronotype = recommendation.getUserId() % 2 == 0 ? "morning" : "evening";  // 예시로, userId로 chronotype을 임의로 결정합니다.
+        boolean isMorningPerson = user.isMorningPerson();
 
         String morningRoutineForMorningType = taskListToString(recommendation.getMorningRoutineForMorningType());
         String afternoonRoutineForMorningType = taskListToString(recommendation.getAfternoonRoutineForMorningType());
@@ -103,7 +106,7 @@ public class RecommendationDAO {
             morningRoutineForEveningType,
             afternoonRoutineForEveningType,
             eveningRoutineForEveningType,
-            chronotype
+            isMorningPerson
         };
 
         jdbcUtil.setSqlAndParameters(sql, param); // insert문과 매개 변수 설정
@@ -140,13 +143,13 @@ public class RecommendationDAO {
      * 추천 루틴을 업데이트합니다. 
      * chronotype에 맞게 기존 루틴을 업데이트합니다.
      */
-    public int updateRecommendation(Recommendation recommendation) throws SQLException {
+    public int updateRecommendation(User user, Recommendation recommendation) throws SQLException {
         String sql = "UPDATE RECOMMENDATION SET "
                    + "morningRoutineForMorningType = ?, afternoonRoutineForMorningType = ?, eveningRoutineForMorningType = ?, "
                    + "morningRoutineForEveningType = ?, afternoonRoutineForEveningType = ?, eveningRoutineForEveningType = ?, "
-                   + "chronotype = ? WHERE userId = ?";
+                   + "isMorningPerson = ? WHERE userId = ?";
 
-        String chronotype = recommendation.getUserId() % 2 == 0 ? "morning" : "evening";
+        boolean isMorningPerson = user.isMorningPerson();
 
         String morningRoutineForMorningType = taskListToString(recommendation.getMorningRoutineForMorningType());
         String afternoonRoutineForMorningType = taskListToString(recommendation.getAfternoonRoutineForMorningType());
@@ -163,21 +166,25 @@ public class RecommendationDAO {
             morningRoutineForEveningType,
             afternoonRoutineForEveningType,
             eveningRoutineForEveningType,
-            chronotype,
+            isMorningPerson,
             recommendation.getUserId()
         };
 
         jdbcUtil.setSqlAndParameters(sql, param);
-
+        
         try {
-            return jdbcUtil.executeUpdate();  // update문 실행
-        } catch (SQLException ex) {
+            int result = jdbcUtil.executeUpdate();  // 쿼리 실행
+            return result;  // 성공적으로 업데이트 된 행의 수를 반환
+        } catch (Exception e) {
             jdbcUtil.rollback();
-            ex.printStackTrace();
-            throw ex;
+            e.printStackTrace();
         } finally {
+            // 항상 commit 및 자원 반환
             jdbcUtil.commit();
             jdbcUtil.close();
         }
-    }
+        
+        return 0;
+    } 
+    
 }
