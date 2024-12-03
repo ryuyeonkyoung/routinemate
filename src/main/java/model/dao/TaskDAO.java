@@ -18,12 +18,12 @@ public class TaskDAO {
 		jdbcUtil = new JDBCUtil();	// JDBCUtil 객체 생성
 	}
 	public int addTask(Task task) throws SQLException{
-	    String sql = "INSERT INTO TASK (order, description, taskDate, isCompleted) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO TASK ( task_id, user_id, description, isCompleted) VALUES ( ?, ?, ?, ?)";
 	    Object[] params = {
-	            task.getOrder(),
+	            task.getTaskId(),
+	            task.getUserId(),
 	            task.getDescription(),
-	            task.getTaskDate(),
-	            task.isCompleted(),
+	            task.isCompleted()
 	    };
 	    jdbcUtil.setSqlAndParameters(sql, params);
 	    try {
@@ -38,20 +38,18 @@ public class TaskDAO {
         }    
         return 0;
 	}
-	//taskid로 read
-	public Task getTaskById(int taskId) {
-	    String sql = "SELECT * FROM TASK WHERE taskId = ?";
-	    jdbcUtil.setSqlAndParameters(sql, new Object[] {taskId});  // JDBCUtil에 query문과 매개 변수 설정
+	//task_id로 read
+	public Task getTaskById(int task_id) {
+	    String sql = "SELECT * FROM TASK WHERE task_id = ?";
+	    jdbcUtil.setSqlAndParameters(sql, new Object[] {task_id});  // JDBCUtil에 query문과 매개 변수 설정
 	    Task task = null;
 	    
 	    try {
 	        ResultSet rs = jdbcUtil.executeQuery();
 	        if (rs.next()) {
                 task = new Task();
-                task.setTaskId(rs.getInt("taskId"));
-                task.setOrder(rs.getInt("order"));
+                task.setTaskId(rs.getInt("task_id"));
                 task.setDescription(rs.getString("description"));
-                task.setTaskDate(rs.getDate("taskDate"));
                 task.setCompleted(rs.getBoolean("isCompleted"));
             }
             rs.close();
@@ -72,10 +70,8 @@ public class TaskDAO {
 	        
             while (rs.next()) {
                 Task task = new Task();
-                task.setTaskId(rs.getInt("taskId"));
-                task.setOrder(rs.getInt("order"));
+                task.setTaskId(rs.getInt("task_id"));
                 task.setDescription(rs.getString("description"));
-                task.setTaskDate(rs.getDate("taskDate"));
                 task.setCompleted(rs.getBoolean("isCompleted"));
                 taskList.add(task);
             }
@@ -90,11 +86,9 @@ public class TaskDAO {
 	}
 	//task 수정 update
 	public int updateTask(Task task) throws SQLException{
-	    String sql = "UPDATE TASK SET order = ?, description = ?, taskDate = ?, isCompleted = ? WHERE taskId = ?";
+	    String sql = "UPDATE TASK SET description = ?, isCompleted = ? WHERE task_id = ?";
 	    Object[] params = {
-                task.getOrder(),
                 task.getDescription(),
-                task.getTaskDate(),
                 task.isCompleted(),
                 task.getTaskId()
         };
@@ -112,9 +106,9 @@ public class TaskDAO {
         return 0;
 	}
 	//task 삭제 delete
-	public int deleteTask(int taskId) throws SQLException{
-	    String sql = "DELETE FROM TASK WHERE taskId = ?";
-	    jdbcUtil.setSqlAndParameters(sql, new Object[] {taskId});
+	public int deleteTask(int task_id) throws SQLException{
+	    String sql = "DELETE FROM TASK WHERE task_id = ?";
+	    jdbcUtil.setSqlAndParameters(sql, new Object[] {task_id});
 	    
 	    try {
 	        int result = jdbcUtil.executeUpdate();
