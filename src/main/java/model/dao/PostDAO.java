@@ -21,7 +21,7 @@ public class PostDAO {
      */
     public int createPost(Post post) {
         String insertPostSQL = "INSERT INTO posts (postId, postTitle, postDate, postAuthor) VALUES (?, ?, ?, ?)";
-        String insertTaskSQL = "INSERT INTO post_tasks (taskId, taskOrder, description, isCompleted, postId) VALUES (?, ?, ?, ?, ?)";
+        String insertTaskSQL = "INSERT INTO post_tasks (postId, taskId, taskOrder, description, isCompleted) VALUES (?, ?, ?, ?, ?)";
 
         try {
             // Post 삽입
@@ -36,11 +36,11 @@ public class PostDAO {
             // Task 삽입
             for (PostTask task : post.getTasks()) {
                 jdbcUtil.setSqlAndParameters(insertTaskSQL, new Object[]{
+                    post.getPostId(),
                     task.getTaskId(),
                     task.getOrder(),
                     task.getDescription(),
-                    task.isCompleted(),
-                    post.getPostId()
+                    task.isCompleted()
                 });
                 jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
             }
