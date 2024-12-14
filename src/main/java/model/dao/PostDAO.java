@@ -21,7 +21,8 @@ public class PostDAO {
      */
     public int createPost(Post post) {
         String insertPostSQL = "INSERT INTO posts (postId, postTitle, postDate, postAuthor) VALUES (?, ?, ?, ?)";
-        String insertTaskSQL = "INSERT INTO post_tasks (taskId, taskOrder, description, isCompleted, postId) VALUES (?, ?, ?, ?, ?)";
+
+        String insertTaskSQL = "INSERT INTO post_tasks (postId, taskId, taskOrder, description, isCompleted) VALUES (?, ?, ?, ?, ?)";
 
         try {
             // Post 삽입
@@ -36,11 +37,12 @@ public class PostDAO {
             // Task 삽입
             for (PostTask task : post.getTasks()) {
                 jdbcUtil.setSqlAndParameters(insertTaskSQL, new Object[]{
+
+                    post.getPostId(),
                     task.getTaskId(),
                     task.getOrder(),
                     task.getDescription(),
-                    task.isCompleted(),
-                    post.getPostId()
+                    task.isCompleted()
                 });
                 jdbcUtil.executeUpdate();  // executeUpdate에서 발생할 수 있는 예외 처리
             }
@@ -54,6 +56,53 @@ public class PostDAO {
         } finally {
             jdbcUtil.close();  // 자원 반환
         }
+    }
+    
+    /** 
+     * 게시물 목록 조회
+     */
+    public List<Post> getPostList() {
+        String selectPostSQL = "SELECT * FROM posts";
+        String selectTasksSQL = "SELECT * FROM post_tasks WHERE postId = ?";
+        List<Post> postList = new ArrayList<>();
+
+        try {
+            // Post 목록 조회
+            jdbcUtil.setSqlAndParameters(selectPostSQL, new Object[]{});
+            ResultSet postRS = jdbcUtil.executeQuery();
+
+            while (postRS.next()) {
+                int postId = postRS.getInt("postId");
+                String postTitle = postRS.getString("postTitle");
+                Date postDate = postRS.getDate("postDate");
+                String postAuthor = postRS.getString("postAuthor");
+
+                // Task 조회
+                jdbcUtil.setSqlAndParameters(selectTasksSQL, new Object[]{postId});
+                ResultSet taskRS = jdbcUtil.executeQuery();
+                List<PostTask> tasks = new ArrayList<>();
+
+                while (taskRS.next()) {
+                    PostTask task = new PostTask();
+                    task.setTaskId(taskRS.getInt("taskId"));
+                    task.setOrder(taskRS.getInt("taskOrder"));
+                    task.setDescription(taskRS.getString("description"));
+                    task.setCompleted(taskRS.getBoolean("isCompleted"));
+                    tasks.add(task);
+                }
+
+                // Post 객체에 Task 리스트 포함
+                postList.add(new Post(postId, postTitle, postDate, postAuthor, tasks));
+            }
+
+            return postList;
+        } catch (Exception e) {
+            e.printStackTrace();  // 예외 처리
+        } finally {
+            jdbcUtil.close();  // 자원 반환
+        }
+
+        return null;  // 결과가 없으면 null 반환
     }
 
     /**

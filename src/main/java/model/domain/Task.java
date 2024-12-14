@@ -1,27 +1,41 @@
 package model.domain;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Task {           
-    private int user_id;           // 할당된 사용자 ID (선택적 필드)
-    private int task_id;
+public class Task implements Serializable{           
+	private static final long serialVersionUID = 1L;
+	
+	private int userId;           // 할당된 사용자 ID (선택적 필드)
+    private int taskId;
+    private int order;
     private String description;
     private boolean isCompleted;
+    private User user;
+    
+    public Task() { };
     
     // 생성자
-    public Task() {
-        this.task_id = 0;
+    /*public Task() {
+        this.taskId = 0;
         this.description = "";
         this.isCompleted = false;
-    }
+    }*/
 
     // Getter & Setter
     public int getTaskId() {
-        return task_id;
+        return taskId;
     }
 
-    public void setTaskId(int task_id) {
-        this.task_id = task_id;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+    
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public String getDescription() {
@@ -41,19 +55,24 @@ public class Task {
     }
     
     public int getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
+    
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
 
     public String toString() {
-        return "Task [user_id=" + user_id + ", task_id=" + task_id
-                + ", description=" + description + ", isCompleted=" + isCompleted + "]";
-    }
-
-    
-
+        return "Task [userId=" + userId + ", taskId=" + taskId
+                + ", order=" + order + ", description=" + description + ", isCompleted=" + isCompleted + "]";
+    } 
     
 }

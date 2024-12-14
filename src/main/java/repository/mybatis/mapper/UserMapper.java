@@ -1,0 +1,21 @@
+package repository.mybatis.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import model.domain.User;
+
+public interface UserMapper {
+    
+    int createUser(User user);   
+ 
+    int updateUser(User user);
+    
+    int removeUser(int userNo);
+    
+    User selectUser(int userNo);
+    
+    List<User> selectUserList();
+    
+    int existingUser(int userNo);
+}
