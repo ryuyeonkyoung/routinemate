@@ -21,6 +21,7 @@ public class PostDAO {
      */
     public int createPost(Post post) {
         String insertPostSQL = "INSERT INTO posts (postId, postTitle, postDate, postAuthor) VALUES (?, ?, ?, ?)";
+
         String insertTaskSQL = "INSERT INTO post_tasks (postId, taskId, taskOrder, description, isCompleted) VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -36,6 +37,7 @@ public class PostDAO {
             // Task 삽입
             for (PostTask task : post.getTasks()) {
                 jdbcUtil.setSqlAndParameters(insertTaskSQL, new Object[]{
+
                     post.getPostId(),
                     task.getTaskId(),
                     task.getOrder(),
