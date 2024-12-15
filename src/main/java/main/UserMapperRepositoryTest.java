@@ -6,7 +6,7 @@ import java.util.List;
 
 import model.domain.User;
 import repository.mybatis.UserMapperRepository;
-public class UserMapperRepositoryTest {//CRUD 테스트용 코드
+public class UserMapperRepositoryTest {//USER CRUD 테스트용 코드
 	private static UserMapperRepository userDao = new UserMapperRepository();
 
 	public static void main(String[] args) {

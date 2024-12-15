@@ -4,6 +4,7 @@
 <mapper namespace="repository.mybatis.mapper.UserMapper">
 	<cache />
 
+	<!-- *USER 관련 -->
 	<sql id="UserBaseColumns">
 		user_id AS userId,
 		password AS password,
@@ -17,7 +18,7 @@
 		INSERT INTO USERS (user_id, password, name, email, birthDate, chronoType)
 		VALUES (#{userId}, #{password}, #{username}, #{email}, #{birthDate}, #{isMorningPerson})
 	</insert>
-
+	
 	<update id="updateUser" parameterType="User">
 		UPDATE USERS 
 		SET password = #{password}, name = #{username}, email = #{email}, birthDate = #{birthDate}, chronoType = #{isMorningPerson}
@@ -49,4 +50,52 @@
     FROM USERS
     WHERE user_id = #{userId}
 	</select>
+	
+	<!-- *TASK 관련 -->
+	<sql id="TaskBaseColumns">
+		user_id AS userId,
+		task_id AS taskId,
+		task_order AS "order",
+		description AS description,
+		isCompleted AS isCompleted
+	</sql>
+	
+	<insert id="addTask" parameterType="Task">
+		INSERT INTO TASK (user_id, task_id, task_order, description, isCompleted)
+		VALUES (#{userId}, #{taskId}, #{order}, #{description}, #{isCompleted})
+	</insert>
+	
+	<update id="updateTask" parameterType="Task">
+		UPDATE TASK 
+		SET task_order = #{order}, description = #{description}, isCompleted = #{isCompleted}
+		WHERE task_id = #{taskId}
+	</update>
+ 
+	<delete id="deleteTask" parameterType="int">
+		DELETE FROM TASK
+		WHERE task_id = #{taskId}
+	</delete>
+	
+	<!-- Task ID로 read -->
+	<select id="getTaskById" parameterType="int" resultType="Task">
+		SELECT <include refid="TaskBaseColumns" />
+		FROM TASK
+		WHERE task_id = #{taskId}
+	</select>
+	
+	<!-- 모든 Task read : 필요한가 여쭙기-->
+	<select id="getAllTasks" resultType="Task">
+		SELECT <include refid="TaskBaseColumns" />
+		FROM TASK
+		ORDER BY task_id
+	</select>
+	
+	<!-- 특정 유저가 가진 Task 목록 조회 : 새로 추가한 sql문-->
+	<select id="getTasksByUserId" parameterType="int" resultType="Task">
+		SELECT <include refid="TaskBaseColumns" />
+		FROM TASK
+		WHERE user_id = #{userId}
+		ORDER BY task_order
+	</select>
+	
 </mapper>
