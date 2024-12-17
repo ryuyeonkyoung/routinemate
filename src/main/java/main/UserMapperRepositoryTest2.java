@@ -7,9 +7,9 @@ import java.util.List;
 import model.domain.User;
 import model.domain.Task;
 
-import repository.mybatis.UserMapperRepository;
+import repository.mybatis.TaskMapperRepository;
 public class UserMapperRepositoryTest2 {//Task CRUD 테스트용 코드
-	private static UserMapperRepository taskDao = new UserMapperRepository();
+	private static TaskMapperRepository taskDao = new TaskMapperRepository();
 
 	public static void main(String[] args) {
 		System.out.println("UserMapperRepositoryTest2 starts...");

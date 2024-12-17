@@ -12,39 +12,39 @@
 	</sql>
 	
 	<insert id="addTask" parameterType="Task">
-		INSERT INTO TASK (user_id, task_id, task_order, description, isCompleted)
+		INSERT INTO Task (user_id, task_id, task_order, description, isCompleted)
 		VALUES (#{userId}, #{taskId}, #{order}, #{description}, #{isCompleted})
 	</insert>
 	
 	<update id="updateTask" parameterType="Task">
-		UPDATE TASK 
+		UPDATE Task 
 		SET task_order = #{order}, description = #{description}, isCompleted = #{isCompleted}
 		WHERE task_id = #{taskId}
 	</update>
  
 	<delete id="deleteTask" parameterType="int">
-		DELETE FROM TASK
+		DELETE FROM Task
 		WHERE task_id = #{taskId}
 	</delete>
 	
 	<!-- Task ID로 read -->
 	<select id="getTaskById" parameterType="int" resultType="Task">
 		SELECT <include refid="TaskBaseColumns" />
-		FROM TASK
+		FROM Task
 		WHERE task_id = #{taskId}
 	</select>
 	
 	<!-- 모든 Task read : 필요한가 여쭙기-->
 	<select id="getAllTasks" resultType="Task">
 		SELECT <include refid="TaskBaseColumns" />
-		FROM TASK
+		FROM Task
 		ORDER BY task_id
 	</select>
 	
 	<!-- 특정 유저가 가진 Task 목록 조회 : 새로 추가한 sql문-->
 	<select id="getTasksByUserId" parameterType="int" resultType="Task">
 		SELECT <include refid="TaskBaseColumns" />
-		FROM TASK
+		FROM Task
 		WHERE user_id = #{userId}
 		ORDER BY task_order
 	</select>
