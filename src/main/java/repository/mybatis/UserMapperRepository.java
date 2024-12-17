@@ -37,7 +37,7 @@ public class UserMapperRepository {
 			sqlSession.close();
 		}
 	}
-	
+
 	public List<User> selectUserList() {
 	    SqlSession sqlSession = sqlSessionFactory.openSession();
 	    try {
