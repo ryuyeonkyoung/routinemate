@@ -3,15 +3,14 @@ package repository.mybatis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 import repository.mybatis.mapper.UserMapper;
 import model.domain.User;
-import model.domain.Task;
 
 public class UserMapperRepository {
 	private SqlSessionFactory sqlSessionFactory;
@@ -27,8 +26,6 @@ public class UserMapperRepository {
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 	}
 	
-	
-	/*User*/
 	public User selectUser(int userId) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
@@ -103,73 +100,6 @@ public class UserMapperRepository {
 		} finally {
 			sqlSession.close();
 		}
-	}
-	
-	/*Task*/
-	public int addTask(Task task) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			int result = sqlSession.getMapper(UserMapper.class).addTask(task);
-			if (result > 0) {
-				sqlSession.commit();
-			} 
-			return result;
-		} finally {
-			sqlSession.close();
-		}
-	}
-
-	public int updateTask(Task task) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			int result = sqlSession.getMapper(UserMapper.class).updateTask(task);
-			if (result > 0) {
-				sqlSession.commit();
-			} 
-			return result;
-		} finally {
-			sqlSession.close();
-		}
-	}
-	
-	public int deleteTask(int taskId) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			int result = sqlSession.getMapper(UserMapper.class).deleteTask(taskId);
-			if (result > 0) {
-				sqlSession.commit();
-			} 
-			return result;
-		} finally {
-			sqlSession.close();
-		}
-	}
-	
-	public Task getTaskById(int taskId) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			return sqlSession.getMapper(UserMapper.class).getTaskById(taskId);			
-		} finally {
-			sqlSession.close();
-		}
-	}
-	
-	public List<Task> getAllTasks() {
-	    SqlSession sqlSession = sqlSessionFactory.openSession();
-	    try {
-	        return sqlSession.getMapper(UserMapper.class).getAllTasks();
-	    } finally {
-	        sqlSession.close();
-	    }
-	}
-	
-	public List<Task> getTasksByUserId(int userId) {
-	    SqlSession sqlSession = sqlSessionFactory.openSession();
-	    try {
-	        return sqlSession.getMapper(UserMapper.class).getTasksByUserId(userId);
-	    } finally {
-	        sqlSession.close();
-	    }
 	}
 		
 }
