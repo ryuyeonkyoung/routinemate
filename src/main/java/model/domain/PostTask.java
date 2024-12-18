@@ -1,7 +1,6 @@
 package model.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class PostTask implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -10,7 +9,6 @@ public class PostTask implements Serializable {
 	private int postId;
     private int order;
     private String description; 
-    private User user;
     private Post post; 
     
 	public PostTask() {}
@@ -54,14 +52,6 @@ public class PostTask implements Serializable {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	public Post getPost() {
 		return post;
