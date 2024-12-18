@@ -3,18 +3,17 @@ package model.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import model.dao.TaskDAO;
-import model.dao.UserDAO;
+import repository.mybatis.TaskMapperRepository;
 import model.domain.Task;
-import model.domain.User;
+import model.service.exception.UserNotFoundException;
 
 public class TaskManager {
     private static TaskManager routineMan = new TaskManager();
-    private TaskDAO taskDAO;
+    private TaskMapperRepository taskMapperRepository;
 
     private TaskManager() {
         try {
-            taskDAO = new TaskDAO();
+            taskMapperRepository = new TaskMapperRepository();
         } catch (Exception e) {
             e.printStackTrace();
         }           
@@ -24,21 +23,20 @@ public class TaskManager {
         return routineMan;
     }
     
-    public int addTask(Task task) throws SQLException, ExistingUserException {
-        return taskDAO.addTask(task);
+    public int addTask(Task task) throws SQLException {
+        return taskMapperRepository.addTask(task);
     }
 
-    public int updateTask(Task task) throws SQLException, UserNotFoundException {
-        return taskDAO.updateTask(task);
+    public int updateTask(Task task) throws SQLException {
+        return taskMapperRepository.updateTask(task);
     }   
 
-    public int removeTask(int taskId) throws SQLException, UserNotFoundException {
-        return taskDAO.deleteTask(taskId);
+    public int removeTask(int taskId) throws SQLException {
+        return taskMapperRepository.deleteTask(taskId);
     }
 
-    public Task findTask(int taskId)
-        throws SQLException, UserNotFoundException {
-        Task task = taskDAO.getTaskById(taskId);
+    public Task findTask(int taskId) throws SQLException, UserNotFoundException {
+        Task task = taskMapperRepository.getTaskById(taskId);
         
         if (task == null) {
             throw new UserNotFoundException(taskId + "는 존재하지 않는 할일입니다.");
@@ -47,6 +45,6 @@ public class TaskManager {
     }
 
     public List<Task> getAllTasks() throws SQLException {
-            return taskDAO.getAllTasks();
+        return taskMapperRepository.getAllTasks();
     }
 }

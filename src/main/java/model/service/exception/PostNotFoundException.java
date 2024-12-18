@@ -1,4 +1,5 @@
-package model.service;
+package model.service.exception;
+
 /**
  * 게시물을 찾을 수 없는 경우 발생하는 예외.
  */
