@@ -2,7 +2,9 @@ package main;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.domain.User;
 import repository.mybatis.UserMapperRepository;
@@ -67,7 +69,6 @@ public class UserMapperRepositoryTest { // USER CRUD 테스트용 코드
 
     public static void createUser(String password, String username, String email, boolean isMorningType) {
         System.out.println("createUser - 아이디 : " + username + ", 비밀번호 : " + password);
-
         User user = new User();
         user.setPassword(password);
         user.setUserName(username);

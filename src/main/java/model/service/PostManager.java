@@ -20,7 +20,7 @@ public class PostManager {
     }
 
     public int createPost(Post post) throws InvalidPostException, PostDatabaseException {
-        if (post == null || post.getPostTitle() == null || post.getPostAuthor() == null) {
+        if (post == null || post.getPostTitle() == null || post.getUserName() == null) {
             throw new InvalidPostException("Post 객체의 필수 값이 누락되었습니다.");
         }
 

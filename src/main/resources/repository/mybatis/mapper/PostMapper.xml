@@ -5,37 +5,36 @@
 	<cache />
 	
 	<sql id="PostBaseColumns">
+		USER_ID AS userId,
 		POST_ID AS postId,
 		TITLE AS postTitle,
-		CONTENT AS postContent,
 		CREATE_DATE AS postDate,
-		USER_ID AS postAuthor
+		AUTHOR AS userName
 	</sql>
 	
 	<sql id="PostTaskBaseColumns">
 	    POST_TASK_ID AS postTaskId,
-	    TASK_ORDER AS taskOrder,
+	    TASK_ORDER AS order,
 	    DESCRIPTION AS description,
 	    POST_ID AS postId,
-	    TASK_ID AS taskId,
 	    USER_ID AS userId
 	</sql>
 	
 	<insert id="createPost" parameterType="Post">
 		<!-- POST_ID는 SEQUENCE_POSTID 시퀀스를 통해 자동 생성 -->
-		INSERT INTO post (POST_ID, TITLE, CONTENT, CREATE_DATE, USER_ID)
-		VALUES (SEQUENCE_POSTID.NEXTVAL, #{postTitle}, #{postContent}, #{postDate}, #{postAuthor})
+		INSERT INTO post (USER_ID, POST_ID, TITLE, CREATE_DATE, AUTHOR)
+		VALUES (#{userId}, SEQUENCE_POSTID.NEXTVAL, #{postTitle}, #{postDate}, #{userName})
 	</insert>
 
 	<insert id="createPostTask" parameterType="PostTask">
 		<!-- POST_TASK_ID는 SEQUENCE_POST_TASK_ID 시퀀스를 통해 자동 생성 -->
-		INSERT INTO post_tasks (POST_ID, TASK_ID, TASK_ORDER, DESCRIPTION)
-		VALUES (SEQUENCE_POST_TASK_ID.NEXTVAL, #{taskId}, #{taskOrder}, #{description})
+		INSERT INTO post_tasks (POST_TASK_ID, TASK_ORDER, DESCRIPTION, POST_ID, USER_ID)
+		VALUES (SEQUENCE_POST_TASK_ID.NEXTVAL, #{order}, #{description}, #{postId}, #{userId})
 	</insert>
 	
 	<update id="updatePost" parameterType="Post">
 		UPDATE post
-		SET TITLE = #{postTitle}, CONTENT = #{postContent}, CREATE_DATE = #{postDate}, USER_ID = #{postAuthor}
+		SET TITLE = #{postTitle}, CONTENT = #{postContent}, CREATE_DATE = #{postDate}, AUTHOR = #{userName}
 		WHERE POST_ID = #{postId}
 	</update>
 	
@@ -67,7 +66,7 @@
 	
 	<!-- 주어진 게시물 ID에 해당하는 Task 조회 -->
 	<select id="selectPostTasks" parameterType="int" resultType="PostTask">
-		SELECT TASK_ID, TASK_ORDER, DESCRIPTION
+		SELECT POST_TASK_ID, TASK_ORDER, DESCRIPTION
 		FROM post_tasks
 		WHERE POST_ID = #{postId}
 		ORDER BY TASK_ORDER

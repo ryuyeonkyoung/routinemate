@@ -44,8 +44,8 @@
 	
 	<!-- 주어진 사용자 ID에 해당하는 사용자가 존재하는지 검사  -->
 	<select id="existingUser" parameterType="int" resultType="int">
-    SELECT COUNT(*)
-    FROM USERINFO
-    WHERE user_id = #{userId}
+    	SELECT COUNT(*)
+    	FROM USERINFO
+    	WHERE user_id = #{userId}
 	</select>
 </mapper>
