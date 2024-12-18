@@ -1,8 +1,5 @@
 package controller.user;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import controller.Controller;
 import model.domain.User;
-import model.service.ExistingUserException;
 import model.service.UserManager;
+import model.service.exception.ExistingUserException;
 
 public class RegisterUserController implements Controller {
     private static final Logger log = LoggerFactory.getLogger(RegisterUserController.class);

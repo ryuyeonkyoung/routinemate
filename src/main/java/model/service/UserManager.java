@@ -47,14 +47,14 @@ public class UserManager {
         return userMapperRepository.updateUser(user);
     }   
 
-    public int remove(String userId) throws SQLException, UserNotFoundException {
+    public int remove(int userId) throws SQLException, UserNotFoundException {
         // 게시글 삭제
         // 댓글 삭제
-        return userMapperRepository.removeUser(Integer.parseInt(userId)); // userId를 int로 변환하여 전달
+        return userMapperRepository.removeUser(userId);
     }
 
-    public User findUser(String userId) throws SQLException, UserNotFoundException {
-        User user = userMapperRepository.selectUser(Integer.parseInt(userId)); // userId를 int로 변환하여 전달
+    public User findUser(int userId) throws SQLException, UserNotFoundException {
+        User user = userMapperRepository.selectUser(userId);
         if (user == null) {
             throw new UserNotFoundException(userId + "는 존재하지 않는 아이디입니다.");
         }       
@@ -65,7 +65,7 @@ public class UserManager {
         return userMapperRepository.selectUserList();
     }
 
-    public boolean login(String userId, String password)
+    public boolean login(int userId, String password)
         throws SQLException, UserNotFoundException, PasswordMismatchException {
         User user = findUser(userId);
         
