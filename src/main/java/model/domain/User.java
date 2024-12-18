@@ -80,7 +80,6 @@ public class User implements Serializable{
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-
     
     public boolean getChronoType() {
         return chronoType;
@@ -101,9 +100,7 @@ public class User implements Serializable{
     		isMorningPerson = "EVENING";
     	}*/
         this.isMorningPerson = isMorningPerson;
-    }
-    
-    
+    }       
 
 	@Override
 	public String toString() {
