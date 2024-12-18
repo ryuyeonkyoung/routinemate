@@ -10,7 +10,7 @@ import model.service.UserManager;
 public class LoginController implements Controller {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	String userId = request.getParameter("userId");
+    	int userId = Integer.parseInt(request.getParameter("userId"));
 		String password = request.getParameter("password");
 		
 		try {

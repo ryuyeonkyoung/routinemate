@@ -24,7 +24,7 @@ public class UserDAO {
     public int create(User user) throws SQLException {
         String sql = "INSERT INTO USERINFO VALUES (?, ?, ?, ?, ?, ?)";      
         Object[] param = new Object[] {user.getUserId(), user.getPassword(), 
-                        user.getUsername(), user.getEmail(), user.getBirthDate(), user.isMorningPerson() };              
+                        user.getUserName(), user.getEmail(), user.getBirthDate(), user.getIsMorningPerson() };              
         jdbcUtil.setSqlAndParameters(sql, param);
                         
         try {               
@@ -47,8 +47,8 @@ public class UserDAO {
         String sql = "UPDATE USERINFO "
                     + "SET password=?, username=?, email=?, birth_date=?, is_morning_person=? "
                     + "WHERE user_id=?";
-        Object[] param = new Object[] {user.getPassword(), user.getUsername(), 
-                    user.getEmail(), user.getBirthDate(), user.isMorningPerson(),
+        Object[] param = new Object[] {user.getPassword(), user.getUserName(), 
+                    user.getEmail(), user.getBirthDate(), user.getIsMorningPerson(),
                     user.getUserId()};              
         jdbcUtil.setSqlAndParameters(sql, param);
             
@@ -69,7 +69,7 @@ public class UserDAO {
     /**
      * 사용자 ID에 해당하는 사용자를 삭제.
      */
-    public int remove(String userId) throws SQLException {
+    public int remove(int userId) throws SQLException {
         String sql = "DELETE FROM USERINFO WHERE user_id=?";     
         jdbcUtil.setSqlAndParameters(sql, new Object[] {userId});
 
@@ -91,7 +91,7 @@ public class UserDAO {
      * 주어진 사용자 ID에 해당하는 사용자 정보를 데이터베이스에서 찾아 User 도메인 클래스에 
      * 저장하여 반환.
      */
-    public User findUser(String userId) throws SQLException {
+    public User findUser(int userId) throws SQLException {
         String sql = "SELECT password, username, email, birth_date, is_morning_person "
                     + "FROM USERINFO "
                     + "WHERE user_id=? ";              
@@ -106,7 +106,8 @@ public class UserDAO {
                     rs.getString("username"),
                     rs.getString("email"),
                     rs.getDate("birth_date"),
-                    rs.getBoolean("is_morning_person"));
+                    rs.getBoolean("chronoType"), // chronoType: 아침형인지 여부
+                    rs.getString("is_morning_person"));
                 return user;
             }
         } catch (Exception ex) {
@@ -132,12 +133,13 @@ public class UserDAO {
             while (rs.next()) {
                 // 1. user 객체 생성 및 정보 저장
                 User user = new User(
-                    rs.getString("user_id"),
+                    rs.getInt("user_id"),
                     null,
                     rs.getString("username"),
                     rs.getString("email"),
                     rs.getDate("birth_date"),
-                    rs.getBoolean("is_morning_person"));
+                    rs.getBoolean("chronotype"),
+                    rs.getString("is_morning_person"));
                 // 2. userList에 user 객체 저장
                 userList.add(user);
             }       
@@ -155,7 +157,7 @@ public class UserDAO {
     /**
      * 주어진 사용자 ID에 해당하는 사용자가 존재하는지 검사 
      */
-    public boolean existingUser(String userId) throws SQLException {
+    public boolean existingUser(int userId) throws SQLException {
         String sql = "SELECT count(*) FROM USERINFO WHERE user_id=?";      
         jdbcUtil.setSqlAndParameters(sql, new Object[] {userId});
 

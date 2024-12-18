@@ -167,7 +167,7 @@ body {
     font-weight: regular;
     font-size: 40px;
   }
-
+  
   .dropdown {
     position: relative; /* 드롭다운 컨테이너를 기준으로 위치 설정 */
     top: -10px;
@@ -177,13 +177,14 @@ body {
 .dropdown-content {
     display: none;
     position: absolute; /* 부모 요소(.dropdown)를 기준으로 위치 지정 */
-    top: 50px; /* 부모 요소의 아래에 위치 */
-    left: 550px; /* 왼쪽 정렬 */
+    top: 40px; /* 부모 요소의 아래에 위치 */
+    left: 650px; /* 왼쪽 정렬 */
     z-index: 1; /* 다른 요소보다 위에 배치 */
     font-weight: 400;
     background-color: #f9f9f9;
-    min-width: 250px;
+    min-width: 200px;
     padding: 10px 0; /* 상하 간격 */
+    text-align: center;
 }
 
 .dropdown-content a {

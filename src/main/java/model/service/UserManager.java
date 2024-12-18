@@ -44,13 +44,13 @@ public class UserManager {
 	    return userDAO.update(user);
 	}	
 
-	public int remove(String userId) throws SQLException, UserNotFoundException {
+	public int remove(int userId) throws SQLException, UserNotFoundException {
 		// 게시글 삭제
 	    // 댓글 삭제
 	    return userDAO.remove(userId);
 	}
 
-	public User findUser(String userId)
+	public User findUser(int userId)
 		throws SQLException, UserNotFoundException {
 		User user = userDAO.findUser(userId);
 		
@@ -64,7 +64,7 @@ public class UserManager {
 			return userDAO.findUserList();
 	}
 
-	public boolean login(String userId, String password)
+	public boolean login(int userId, String password)
 		throws SQLException, UserNotFoundException, PasswordMismatchException {
 		User user = findUser(userId);
 		

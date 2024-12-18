@@ -5,7 +5,7 @@
 <head>
 <title>사용자 관리(UserMan3)</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/user.css' />" type="text/css">
+<link rel=stylesheet href="<c:url value='/css/LoginForm.css' />" type="text/css">
 <script>
 function login() {
 	if (form.userId.value == "") {
@@ -29,59 +29,44 @@ function userCreate(targetUri) {
 </script>
 </head>
 <body>
-<br>
-<!-- login form  -->
-<form name="form" method="POST" action="<c:url value='/user/login' />">
-  <table style="width:100%">
-	<tr>
-	  <td width="20"></td>
-	  <td>
-	  	<b>UserMan3</b><br><br>
-	   	<table>
-	   	  <tr>
-		    <td class="title">&nbsp;&nbsp;사용자 관리 - 로그인&nbsp;&nbsp;</td>
-		  </tr>
-	    </table>  
-		
-	    <!-- 로그인이 실패한 경우 exception 객체에 저장된 오류 메시지를 출력 -->
-        <c:if test="${loginFailed}">
-	  	  <br><font color="red"><c:out value="${exception.getMessage()}" /></font><br>
-	    </c:if>
-	    <br>	  
-	    <table style="background-color: YellowGreen">
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">사용자 ID</td>
-			<td width="250" bgcolor="ffffff" style="padding-left:10">
-				<input type="text" style="width:240" name="userId">
-			</td>
-		  </tr>
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">비밀번호</td>
-			<td width="250" bgcolor="ffffff" style="padding-left:10">
-				<input type="password" style="width:240" name="password">
-			</td>
-		  </tr>
-	    </table>
-	    <br>	  
-	    <table style="width:100%">
-		  <tr>
-			<td align=left>
-			<input type="button" value="로그인" onClick="login()"> &nbsp;
-			<input type="button" value="회원가입" onClick="userCreate(
-								'<c:url value='/user/register'/>')">
-			</td>						
-		  </tr>
-		  <tr height="40"><td>(관리자 로그인: admin/admin)</td></tr>
-	    </table>
-	  </td>	  
-	</tr>
-	<tr height="100"><td>&nbsp;</td>
-	  <td>
-		<a href="http://cs.dongduk.ac.kr">
-		  <img src="<c:url value='/images/logo.gif' />" /></a>		
-	  </td>
-	</tr>
-  </table>  
-</form>
+<div class="signup-container">
+    <!-- 메인 제목 -->
+    <span class="main-title">루틴메이트</span>
+    
+    <!-- 메뉴 섹션 -->
+    <div class="menu">
+      <span class="menu-item">월간통계</span>
+      <span class="menu-item">루틴추천</span>
+      <span class="menu-item">루틴공유</span>
+      <span class="menu-item">mypage</span>
+      <span class="menu-item">로그인</span>
+    </div>
+    
+    <!-- 로그인 텍스트 -->
+    <span class="login-title">로그인</span>
+    
+    <!-- 로그인 폼 -->
+    <form  name="form" method="POST" action="<c:url value='/user/login' />">
+      <!-- ID 섹션 -->
+      <div class="id-section">
+        <div class="id-box"></div>
+        <label for="login-id" class="id-label"></label>
+        <input type="text" id="login-id" name="userId" class="id-input" placeholder="ID" required />
+      </div>
+      
+      <!-- 패스워드 섹션 -->
+      <div class="password-section">
+        <div class="password-box"></div>
+        <label for="login-password" class="password-label"></label>
+        <input type="password" id="login-password" name="password" class="password-input" placeholder="Password" required />
+      </div>
+      
+      <div class="signin-section">
+        <div class="signin-box"></div>
+        <button type="submit" class="signin-button  value="로그인" onClick="login()">로그인</button>
+      </div>
+      <p class="signup-title" value="회원가입" onClick="userCreate('<c:url value='/user/register/form'/>')">회원가입</p>
+	  </form>
+  </div>
 </body>
 </html>

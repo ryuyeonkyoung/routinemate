@@ -4,7 +4,7 @@
 <head>
 <title>사용자 관리</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/user.css' />" type="text/css">
+<link rel=stylesheet href="<c:url value='/css/JoinForm.css' />" type="text/css">
 <script>
 function userCreate() {
 	if (form.userId.value == "") {
@@ -49,91 +49,51 @@ function userList(targetUri) {
 
 </script>
 </head>
-<body>	
-<!-- 화면 로드 시 서버로부터 커뮤니티 목록을 가져와 commSelect 메뉴 생성 -->
-<br>
-<!-- registration form  -->
+<body>
 <form name="form" method="POST" action="<c:url value='/user/register' />">
-  <table style="width: 100%">
-    <tr>
-      <td width="20"></td>
-	  <td>
-	    <table>
-		  <tr>
-		    <td class="title">&nbsp;&nbsp;<b>사용자 관리 - 회원 가입</b>&nbsp;&nbsp;</td>
-		  </tr>
-	    </table>  	 
-	    <!-- 회원가입이 실패한 경우 exception 객체에 저장된 오류 메시지를 출력 -->
-        <c:if test="${registerFailed}">
-	      <font color="red"><c:out value="${exception.getMessage()}" /></font>
-	    </c:if>
-	    <br>	  
-	    <table style="background-color: YellowGreen">
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">사용자 ID</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="text" style="width: 240;" name="userId">
-			</td>
-		  </tr>
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">비밀번호</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="password" style="width: 240" name="password">
-			</td>
-		  </tr>
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">비밀번호 확인</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="password" style="width: 240" name="password2">
-			</td>
-		  </tr>
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">이름</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="text" style="width: 240" name="name" 
-				 	<c:if test="${registerFailed}">value="${user.name}"</c:if>>
-			</td>
-		  </tr>
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">이메일 주소</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="text" style="width: 240" name="email" 
-					<c:if test="${registerFailed}">value="${user.email}"</c:if>>
-			</td>
-		  </tr>	
-	  	  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">전화번호</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<input type="text" style="width: 240" name="phone" 
-					<c:if test="${registerFailed}">value="${user.phone}"</c:if>>
-			</td>
-		  </tr>
-		  <tr height="40">
-			<td width="150" align="center" bgcolor="E6ECDE">커뮤니티</td>
-			<td width="250" bgcolor="ffffff" style="padding-left: 10">
-				<select name="commId" style="width: 240">
-					<option value="0">없음</option>
-					<c:forEach var="comm" items="${commList}">
-						<option value="${comm.id}"
-							<c:if test="${comm.id eq user.commId}">selected="selected"</c:if>
-							>${comm.name}</option>
-					</c:forEach>
-				</select>			
-			</td>
-		  </tr>		  
-	    </table>
-	    <br>
-	    <table style="width: 100%">
-		  <tr>
-			<td align="left">
-			<input type="button" value="회원 가입" onClick="userCreate()"> &nbsp;
-			<input type="button" value="목록" onClick="userList('<c:url value='/user/list' />')">
-			</td>
-		  </tr>
-	    </table>
-	  </td>
-    </tr>
-  </table>  
+    <div class="signup-container">
+    <nav class="navigation">
+        <span class="nav-statistics">월간통계</span>
+        <span class="nav-routine-recommendations">루틴추천</span>
+        <span class="nav-routine-sharing">루틴공유</span>
+        <span class="nav-mypage">mypage</span>
+        <span class="nav-login">로그인</span>
+    </nav>
+    
+    <h2 class="app-name">루틴메이트</h2>
+    
+    
+    <h1 class="signup-title">회원가입</h1>
+   	<label class="label-username">아이디</label>
+    <input type="text" name="userId" class="input-username" placeholder="아이디 입력" />
+
+    <label class="label-password">비밀번호</label>
+    <input type="password" name="password" class="input-password" placeholder="비밀번호 입력" />
+    
+    <label class="label-password-confirm">비밀번호 확인</label>
+    <input type="password" name="password2" class="input-password-confirm" placeholder="비밀번호 입력" />
+
+    <label class="label-name">이름</label>
+    <input type="text" name="username" class="input-name" placeholder="이름 입력" />
+
+    <label class="label-email">이메일</label>
+    <input type="email" name="email" class="input-email" placeholder="이메일 입력" />
+    
+    <label class="label-birthdate">생년월일</label>
+	<input type="date" name="birthDate" class="input-birthdate" placeholder="생년월일 입력" />
+
+	<div class="user-type">
+        <label class="type-morning">
+          <input type="checkbox" class="checkbox-morning"  name="isMorningPerson" /> 아침형
+        </label>
+        <label class="type-evening">
+          <input type="checkbox" class="checkbox-evening"  name="isMorningPerson" /> 저녁형
+        </label>
+	</div>
+	 <button value="회원 가입" onClick="userCreate()" class="btn-signup">회원가입</button>
+	 
+    </div>      
 </form>
+
 </body>
 </html>
