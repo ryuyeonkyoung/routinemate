@@ -12,18 +12,29 @@
 		USER_ID AS postAuthor
 	</sql>
 	
+	<sql id="PostTaskBaseColumns">
+	    POST_TASK_ID AS postTaskId,
+	    TASK_ORDER AS taskOrder,
+	    DESCRIPTION AS description,
+	    POST_ID AS postId,
+	    TASK_ID AS taskId,
+	    USER_ID AS userId
+	</sql>
+	
 	<insert id="createPost" parameterType="Post">
-		INSERT INTO posts (POST_ID, TITLE, CONTENT, CREATE_DATE, USER_ID)
-		VALUES (#{postId}, #{postTitle}, #{postContent}, #{postDate}, #{postAuthor})
+		<!-- POST_ID는 SEQUENCE_POSTID 시퀀스를 통해 자동 생성 -->
+		INSERT INTO post (POST_ID, TITLE, CONTENT, CREATE_DATE, USER_ID)
+		VALUES (SEQUENCE_POSTID.NEXTVAL, #{postTitle}, #{postContent}, #{postDate}, #{postAuthor})
 	</insert>
 
 	<insert id="createPostTask" parameterType="PostTask">
-		INSERT INTO post_tasks (POST_ID, TASK_ID, TASK_ORDER, DESCRIPTION, IS_COMPLETED)
-		VALUES (#{postId}, #{taskId}, #{taskOrder}, #{description}, #{isCompleted})
+		<!-- POST_TASK_ID는 SEQUENCE_POST_TASK_ID 시퀀스를 통해 자동 생성 -->
+		INSERT INTO post_tasks (POST_ID, TASK_ID, TASK_ORDER, DESCRIPTION)
+		VALUES (SEQUENCE_POST_TASK_ID.NEXTVAL, #{taskId}, #{taskOrder}, #{description})
 	</insert>
 	
 	<update id="updatePost" parameterType="Post">
-		UPDATE posts 
+		UPDATE post
 		SET TITLE = #{postTitle}, CONTENT = #{postContent}, CREATE_DATE = #{postDate}, USER_ID = #{postAuthor}
 		WHERE POST_ID = #{postId}
 	</update>
@@ -34,7 +45,7 @@
 	</delete>
 
 	<delete id="deletePost" parameterType="int">
-		DELETE FROM posts
+		DELETE FROM post
 		WHERE POST_ID = #{postId}
 	</delete>
 
@@ -42,7 +53,7 @@
 	<select id="selectPostWithTasks" parameterType="int" resultType="Post">
 		SELECT 
 			<include refid="PostBaseColumns" />
-		FROM posts
+		FROM post
 		WHERE POST_ID = #{postId}
 	</select>
 
@@ -50,13 +61,13 @@
 	<select id="selectPostList" resultType="Post">
 		SELECT 
 			<include refid="PostBaseColumns" />
-		FROM posts
+		FROM post
 		ORDER BY CREATE_DATE DESC
 	</select>
 	
 	<!-- 주어진 게시물 ID에 해당하는 Task 조회 -->
 	<select id="selectPostTasks" parameterType="int" resultType="PostTask">
-		SELECT TASK_ID, TASK_ORDER, DESCRIPTION, IS_COMPLETED
+		SELECT TASK_ID, TASK_ORDER, DESCRIPTION
 		FROM post_tasks
 		WHERE POST_ID = #{postId}
 		ORDER BY TASK_ORDER
@@ -65,7 +76,7 @@
 	<!-- 주어진 게시물 ID가 존재하는지 검사 -->
 	<select id="existingPost" parameterType="int" resultType="int">
 		SELECT COUNT(*)
-		FROM posts
+		FROM post
 		WHERE POST_ID = #{postId}
 	</select>
 

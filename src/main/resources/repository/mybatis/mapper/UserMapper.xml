@@ -14,7 +14,7 @@
 
 	<insert id="createUser" parameterType="User">
 		INSERT INTO USERS (user_id, password, name, email, birthDate, chronoType)
-		VALUES (#{userId}, #{password}, #{username}, #{email}, #{birthDate}, #{isMorningPerson})
+		VALUES (SEQUENCE_USERID.NEXTVAL, #{password}, #{username}, #{email}, #{birthDate}, #{isMorningPerson})
 	</insert>
 	
 	<update id="updateUser" parameterType="User">
