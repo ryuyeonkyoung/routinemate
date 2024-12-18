@@ -1,15 +1,14 @@
------------------------전체삭제-----------------------
+-----------------------전체 삭제 질의문문-----------------------
 
--- 1. 제약 삭제
+-- 1. 제약조건 삭제
 ALTER TABLE recommendation DROP CONSTRAINT R_3;
 ALTER TABLE daily_userperformance DROP CONSTRAINT R_1;
 ALTER TABLE task DROP CONSTRAINT R_2;
-ALTER TABLE post DROP CONSTRAINT R_4;
 ALTER TABLE post DROP CONSTRAINT R_8;
 ALTER TABLE post_tasks DROP CONSTRAINT R_5;
 ALTER TABLE post_tasks DROP CONSTRAINT R_6;
 
--- 2. 테이블 삭제
+-- 2. 테이블블 삭제
 DROP TABLE post_tasks PURGE;
 DROP TABLE post PURGE;
 DROP TABLE task PURGE;
@@ -24,7 +23,7 @@ DROP SEQUENCE Sequence_taskid;
 DROP SEQUENCE Sequence_userid;
 
 
------------------------전체 생성-----------------------
+-----------------------생성 질의문-----------------------
 
 CREATE SEQUENCE Sequence_post_task_id
 	INCREMENT BY 1
@@ -108,17 +107,16 @@ CREATE TABLE post
 (
 	post_id              INTEGER  NOT NULL ,
 	title                VARCHAR2(30)  NULL ,
-	content              VARCHAR2(120)  NULL ,
+	author              VARCHAR2(40)  NULL ,
 	create_date          DATE  NULL ,
-	task_id              INTEGER  NOT NULL ,
 	user_id              INTEGER  NOT NULL 
 );
 
 CREATE UNIQUE INDEX XPKpost ON post
-(post_id   ASC,task_id   ASC,user_id   ASC);
+(post_id   ASC,user_id   ASC);
 
 ALTER TABLE post
-	ADD CONSTRAINT  XPKpost PRIMARY KEY (post_id,task_id,user_id);
+	ADD CONSTRAINT  XPKpost PRIMARY KEY (post_id,user_id);
 
 CREATE TABLE post_tasks
 (
@@ -126,15 +124,14 @@ CREATE TABLE post_tasks
 	task_order           INTEGER  NULL ,
 	description          VARCHAR2(120)  NULL ,
 	post_id 			 INTEGER  NOT NULL ,
-	task_id              INTEGER  NOT NULL ,
 	user_id              INTEGER  NOT NULL 
 );
 
 CREATE UNIQUE INDEX XPKpost_tasks ON post_tasks
-(post_task_id   ASC,post_id   ASC,task_id   ASC,user_id   ASC);
+(post_task_id   ASC,post_id   ASC,user_id   ASC);
 
 ALTER TABLE post_tasks
-	ADD CONSTRAINT  XPKpost_tasks PRIMARY KEY (post_task_id,post_id,task_id,user_id);
+	ADD CONSTRAINT  XPKpost_tasks PRIMARY KEY (post_task_id,post_id,user_id);
 
 ALTER TABLE recommendation
 	ADD (
@@ -150,15 +147,11 @@ CONSTRAINT R_2 FOREIGN KEY (user_id) REFERENCES userinfo (user_id));
 
 ALTER TABLE post
 	ADD (
-CONSTRAINT R_4 FOREIGN KEY (task_id, user_id) REFERENCES task (task_id, user_id));
-
-ALTER TABLE post
-	ADD (
 CONSTRAINT R_8 FOREIGN KEY (user_id) REFERENCES userinfo (user_id));
 
 ALTER TABLE post_tasks
 	ADD (
-CONSTRAINT R_5 FOREIGN KEY (post_id, task_id, user_id) REFERENCES post (post_id, task_id, user_id));
+CONSTRAINT R_5 FOREIGN KEY (post_id, user_id) REFERENCES post (post_id, user_id));
 
 ALTER TABLE post_tasks
 	ADD (

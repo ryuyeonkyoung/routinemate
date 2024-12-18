@@ -1,4 +1,5 @@
-package model.service;
+package model.service.exception;
+
 /**
  * 게시물 데이터베이스 작업 중 실패한 경우 발생하는 예외.
  */

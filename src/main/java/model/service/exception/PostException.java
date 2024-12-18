@@ -1,4 +1,4 @@
-package model.service;
+package model.service.exception;
 
 /**
  * 게시물 관련 예외의 최상위 클래스.

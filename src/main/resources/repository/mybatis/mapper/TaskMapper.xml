@@ -12,8 +12,8 @@
 	</sql>
 	
 	<insert id="addTask" parameterType="Task">
-		INSERT INTO Task (user_id, task_id, task_order, description, isCompleted)
-		VALUES (#{userId}, #{taskId}, #{order}, #{description}, #{isCompleted})
+		INSERT INTO TASK (user_id, task_id, task_order, description, isCompleted)
+		VALUES (#{userId}, SEQUENCE_TASKID.NEXTVAL, #{order}, #{description}, #{isCompleted})
 	</insert>
 	
 	<update id="updateTask" parameterType="Task">

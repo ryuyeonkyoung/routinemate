@@ -1,15 +1,18 @@
 package model.service;
 
 import java.util.List;
-import model.dao.PostDAO;
 import model.domain.Post;
+import model.service.exception.InvalidPostException;
+import model.service.exception.PostDatabaseException;
+import model.service.exception.PostNotFoundException;
+import repository.mybatis.PostMapperRepository;
 
 public class PostManager {
     private static PostManager postManager = new PostManager();
-    private PostDAO postDAO;
+    private PostMapperRepository postRepository;
 
     private PostManager() {
-        postDAO = new PostDAO();
+        postRepository = new PostMapperRepository();
     }
 
     public static PostManager getInstance() {
@@ -17,12 +20,12 @@ public class PostManager {
     }
 
     public int createPost(Post post) throws InvalidPostException, PostDatabaseException {
-        if (post == null || post.getPostTitle() == null || post.getPostAuthor() == null) {
+        if (post == null || post.getPostTitle() == null || post.getUserName() == null) {
             throw new InvalidPostException("Post 객체의 필수 값이 누락되었습니다.");
         }
 
         try {
-            return postDAO.createPost(post);
+            return postRepository.createPost(post);
         } catch (Exception e) {
             throw new PostDatabaseException("게시물 생성 중 데이터베이스 오류 발생", e);
         }
@@ -34,10 +37,10 @@ public class PostManager {
         }
 
         try {
-            if (postDAO.getPostById(post.getPostId()) == null) {
+            if (postRepository.getPostById(post.getPostId()) == null) {
                 throw new PostNotFoundException("ID가 " + post.getPostId() + "인 게시물을 찾을 수 없습니다.");
             }
-            return postDAO.updatePost(post);
+            return postRepository.updatePost(post);
         } catch (Exception e) {
             throw new PostDatabaseException("게시물 수정 중 데이터베이스 오류 발생", e);
         }
@@ -49,10 +52,10 @@ public class PostManager {
         }
 
         try {
-            if (postDAO.getPostById(postId) == null) {
+            if (postRepository.getPostById(postId) == null) {
                 throw new PostNotFoundException("ID가 " + postId + "인 게시물을 찾을 수 없습니다.");
             }
-            return postDAO.deletePost(postId);
+            return postRepository.deletePost(postId);
         } catch (Exception e) {
             throw new PostDatabaseException("게시물 삭제 중 데이터베이스 오류 발생", e);
         }
@@ -60,7 +63,7 @@ public class PostManager {
 
     public List<Post> getPostList() throws PostDatabaseException {
         try {
-            return postDAO.getPostList();
+            return postRepository.getPostList();
         } catch (Exception e) {
             throw new PostDatabaseException("게시물 목록 조회 중 데이터베이스 오류 발생", e);
         }
@@ -72,7 +75,7 @@ public class PostManager {
         }
 
         try {
-            Post post = postDAO.getPostById(postId);
+            Post post = postRepository.getPostById(postId);
             if (post == null) {
                 throw new PostNotFoundException("ID가 " + postId + "인 게시물을 찾을 수 없습니다.");
             }

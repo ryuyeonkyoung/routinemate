@@ -1,29 +1,26 @@
 package model.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PostTask {
-    private int taskId;
+public class PostTask implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private int userId;
+	private int postTaskId;
+	private int postId;
     private int order;
     private String description; 
-    private boolean isCompleted;
+    private User user;
     private Post post; 
     
-    // 생성자
-    public PostTask() {
-        this.taskId = 0;
-        this.order = 0;
-        this.description = "";
-        this.isCompleted = false;
+	public PostTask() {}
+
+    public int getPostTaskId() {
+        return postTaskId;
     }
 
-    // Getter & Setter
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setpostTaskId(int postTaskId) {
+        this.postTaskId = postTaskId;
     }
 
     public int getOrder() {
@@ -41,16 +38,42 @@ public class PostTask {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public boolean isCompleted() {
-        return isCompleted;
-    }
-
-    public void setCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
-    }
        
     public int getPostId() {
-        return post != null ? post.getPostId() : -1; // Post가 null인 경우 기본값 반환
+        return postId;
     }
+    
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+    
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+	@Override
+	public String toString() {
+		return "PostTask [userId=" + userId + ", postTaskId=" + postTaskId + ", postId=" + postId + ", order=" + order
+				+ ", description=" + description + "]";
+	}
 }

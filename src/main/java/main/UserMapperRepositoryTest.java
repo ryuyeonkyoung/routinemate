@@ -2,7 +2,9 @@ package main;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.domain.User;
 import repository.mybatis.UserMapperRepository;
@@ -13,31 +15,31 @@ public class UserMapperRepositoryTest {//USER CRUD 테스트용 코드
 		System.out.println("UserMapperRepositoryTest starts...");
 		try {
 			//user create
-			/*createUser(20220303, "dongduk1234", "andy", "111@naver.com", true);
+			createUser(20220303, "dongduk1234", "andy", "111@naver.com", true);
 			createUser(20220304, "rkskekfk1111", "ann", "222@naver.com", false);
 			createUser(20220305, "dhifho1357", "lisa", "333@naver.com", true);
-			System.out.println();*/
+			System.out.println();
 			
 	
 			//user update
-			/*updateUser(20220303, "dongduk1111", "andi", "111@gmail.com",Calendar.getInstance().getTime() ,false);
-			System.out.println();*/
+			updateUser(20220303, "dongduk1111", "andi", "111@gmail.com",Calendar.getInstance().getTime() ,false);
+			System.out.println();
 			
 			//user remove
-			/*removeUser(20220303);
-			  System.out.println();*/
+			removeUser(20220303);
+			  System.out.println();
 			
 			//user select: userId로 user정보 보여주기
-			/*selectUser(20220304);
-			  selectUser(20220305);*/
+			selectUser(20220304);
+			selectUser(20220305);
 			
 			//user select: 전체 UserList 보여주기
-			/*selectUserList();
-			System.out.println();*/
+			selectUserList();
+			System.out.println();
 			
 			//user select: userid로 사용자 존재여부 출력
-	        /*existingUser(20220304); // 사용자 존재 여부 확인
-	        existingUser(99999999); // 존재하지 않는 사용자 확인*/
+	        existingUser(20220304); // 사용자 존재 여부 확인
+	        existingUser(99999999); // 존재하지 않는 사용자 확인
 									
 		} finally {
 			System.out.println();
@@ -65,17 +67,17 @@ public class UserMapperRepositoryTest {//USER CRUD 테스트용 코드
         System.out.println("User with ID " + userId + (exists ? " exists." : " does not exist."));
     }
     
-   /*public static void selectUserList {
-        System.out.println("selectUserList: ");
-        
-        User user = userDao.selectUserList();
-        System.out.println(user);  
-        
-       Map<String, Object> condition = new HashMap<String, Object>();
-        condition.put("userId", userId);
-        List<User> list = userDao.findUserByCondition(condition);      
-        System.out.println(list);
-    }*/
+    /*public static void selectUserList {
+    	System.out.println("selectUserList: ");
+    
+    	User user = userDao.selectUserList();
+    	System.out.println(user);  
+    
+   		Map<String, Object> condition = new HashMap<String, Object>();
+    	condition.put("userId", userId);
+    	List<User> list = userDao.findUserByCondition(condition);      
+    	System.out.println(list);
+	}*/
     
     public static void createUser(int userId, String password, String username, String email, boolean chronoType ) {
         System.out.println("insertComment(" + userId + ", ...): ");

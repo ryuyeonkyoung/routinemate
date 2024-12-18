@@ -1,0 +1,203 @@
+@charset "EUC-KR";
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    width: 1280px;
+    height: 832px;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+  }
+  
+  /* Header */
+  header {
+    position: relative;
+    padding: 20px;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: start;
+    gap: 13px;
+    position: absolute;
+    top: 45.5px;
+    left: 663px;
+  }
+  
+  .nav p {
+    width: 150px;
+    height: 23px;
+    font-size: 22px;
+    color: black;
+  }
+  
+  .title {
+    position: absolute;
+    top: 33px;
+    left: 53px;
+    font-size: 3rem;
+    color: black;
+  }
+  
+  /* Hero Section */
+  .appexplain {
+    position: relative;
+    margin-top: 143px;
+  }
+  
+  .app-background {
+    width: 100%;
+    height: 500px;
+    background-color: #d9d9d9;
+  }
+  
+  
+  .routine-mate {
+    position: absolute;
+    top: -70px;
+    left: 34px;
+    font-size: 6rem;
+    color: black;
+  }
+  
+  .quote {
+    position: absolute;
+    top: 180px;
+    left: 34px;
+    margin-top: 80px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .divider {
+    position: absolute;
+    top: 378px;
+    left: 7px;
+  }
+  
+  /* Board Section */
+  .board {
+    position: relative;
+    margin-top: 100px;
+    padding-left: 22px;
+  }
+  
+  .board-title {
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+  
+  .board-header {
+    width: 1234px;
+    height: 39px;
+    background-color: #94d1ff;
+    border-radius: 3px;
+  }
+  
+  .line {
+    margin-top: 40px;
+  }
+  
+  .board-content {
+    margin-top: 30px;
+  }
+  
+  .board-column {
+    display: inline-block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .board-row {
+    display: inline-block;
+    font-size: 1.25rem;
+    color: #343434;
+  }
+  
+  .board-title-row {
+    display: inline-block;
+    font-size: 1.25rem;
+    color: #343434;
+  }
+  
+  .board-date {
+    display: inline-block;
+    font-size: 1.25rem;
+    color: #343434;
+    margin-left: 800px;
+  }
+  
+
+.navigation {
+    width: 818px;
+    height: 30px;
+    position: absolute;
+    top: 42px;
+    left: 700px;
+  }
+  .navigation span {
+    width: 150px;
+    color: rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 3px;
+    font-family: AppleSDGothicNeoM00;
+    font-weight: regular;
+    font-size: 22px;
+  }
+  .nav-statistics { left: 0px; }
+  .nav-routine-recommendations { left: 170px; }
+  .nav-routine-sharing { left: 340px; }
+  .nav-mypage { left: 510px; }
+  .nav-login { left: 680px; }
+  
+  .app-name {
+    width: 208px;
+    color: rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 3px;
+    left: 39px;
+    font-family: AppleSDGothicNeoH00;
+    font-weight: regular;
+    font-size: 40px;
+  }
+
+  .dropdown {
+    position: relative; /* 드롭다운 컨테이너를 기준으로 위치 설정 */
+    top: -10px;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute; /* 부모 요소(.dropdown)를 기준으로 위치 지정 */
+    top: 50px; /* 부모 요소의 아래에 위치 */
+    left: 550px; /* 왼쪽 정렬 */
+    z-index: 1; /* 다른 요소보다 위에 배치 */
+    font-weight: 400;
+    background-color: #f9f9f9;
+    min-width: 250px;
+    padding: 10px 0; /* 상하 간격 */
+}
+
+.dropdown-content a {
+    display: block;
+    text-decoration: none;
+    color: rgb(37, 37, 37);
+    font-size: 14px; /* 글자 크기 약간 키움 */
+    padding: 12px 20px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ececec; /* 호버 효과 */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* 마우스를 올리면 드롭다운이 표시됨 */
+}

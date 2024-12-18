@@ -1,4 +1,5 @@
-package model.service;
+package model.service.exception;
+
 /**
  * 잘못된 게시물 요청에 대한 예외.
  */
