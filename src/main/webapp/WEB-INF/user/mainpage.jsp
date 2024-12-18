@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@page contentType="text/html; charset=utf-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RoutineMate</title>
-  <link rel="stylesheet" href="mainpage.css">
+<title>사용자 관리(UserMan3)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel=stylesheet href="<c:url value='/css/mainpage.css' />" type="text/css">
 </head>
 <body>
   <div class="signup-container">
@@ -16,17 +14,18 @@
         <span class="nav-routine-recommendations">루틴추천</span>
         <span class="nav-routine-sharing">루틴공유</span>
         <span class="nav-mypage">mypage</span>
-        <div class="dropdown">
-            <span class="nav-login">홈</span>
-            <div class="dropdown-content">
-              <p>${user.userId}님 환영합니다.</p>
-              <a href="mypage.html">마이페이지</a>
-              <p>로그아웃</p>
-            </div>
-          </div>
-
-            
+        
+        
+		<div class = "dropdown">
+		<span class="nav-login">홈</span>
+		<div class="dropdown-content">
+			<a href="<c:url value='/user/mypage' />">마이페이지</a>
+			<a href="<c:url value='/user/logout' />">로그아웃</a>
+			<p>id님 환영합니다.</p>
+   		 </div>   
+		</div>   
     </nav>
+    
     <h2 class="app-name">루틴메이트</h2>
 
 
@@ -39,10 +38,10 @@
         </p>
     </section>
 
-    <section class="board">
+<!--   <section class="board">
         <iframe src="loginform.html" width="100%", height="800px", frameborder="0" scrolling="no">
           </iframe>
-    </section>
+    </section> -->
   </div>
 </body>
 </html>

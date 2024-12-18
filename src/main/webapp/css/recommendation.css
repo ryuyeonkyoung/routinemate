@@ -1,0 +1,84 @@
+@charset "EUC-KR";
+/* 전체 컨테이너 */
+.container {
+  width: 1280px;
+  height: 832px;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+}
+.navigation {
+    display: flex;
+    gap: 20px;
+    color: #000;
+    margin: 0;
+    position: absolute;
+    top: 45.5px;
+    left: 832px;
+    height: 23px;
+}
+.header-title{
+    color: rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 45.5px;
+    left: 39px;
+    font-family: AppleSDGothicNeoH00;
+    font-weight: regular;
+    font-size: 40px;
+
+}
+/* 메뉴 바 */
+.menu-bar {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  top: 45.5px;
+  left: 663px;
+  height: 23px;
+}
+
+.menu-item {
+  font-size: 22px;
+  color: black;
+}
+
+.menu-item.active {
+  color: #0c4672;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+}
+
+/* 헤더 제목 */
+.header-title {
+  position: absolute;
+  left: 53px;
+  top: 33px;
+  font-size: 40px;
+  color: black;
+}
+
+/* 시간대 버튼 */
+.time-buttons {
+  display: flex;
+  gap: 300px;
+  position: absolute;
+  top: 200px;
+  left: 234px;
+}
+
+.time-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 104px;
+  height: 56px;
+  background-color: #dfdfdf;
+  border: 1px solid white;
+  border-radius: 30px;
+  font-size: 20px;
+  color: black;
+}
