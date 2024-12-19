@@ -23,7 +23,7 @@ body {
   text-align: left;
 }
 .label-username, .label-password, .label-password-confirm,
-.label-name, .label-email, .label-birthdate {
+.label-email, .label-birthdate {
   width: 63px;
   color: rgba(0, 0, 0, 1);
   position: absolute;
@@ -36,12 +36,11 @@ body {
 .label-username { top: 229px; left: 388px; }
 .label-password { top: 293px; left: 388px; }
 .label-password-confirm { top: 357px; left: 388px; }
-.label-name { top: 421px; left: 388px; }
-.label-email { top: 485px; left: 386px; }
-.label-birthdate { top: 549px; left: 386px; }
+.label-email { top: 421px; left: 386px; }
+.label-birthdate { top: 485px; left: 386px; }
 
 .input-username, .input-password, .input-password-confirm,
-.input-name, .input-email, .input-birthdate {
+.input-email, .input-birthdate {
   width: 386px;
   height: 42px;
   background: rgba(253, 253, 253, 1);
@@ -52,9 +51,8 @@ body {
 .input-username { top: 222px; left: 567px; }
 .input-password { top: 286px; left: 567px; }
 .input-password-confirm { top: 350px; left: 567px; }
-.input-name { top: 414px; left: 567px; }
-.input-email { top: 478px; left: 567px; }
-.input-birthdate { top: 542px; left: 567px; }
+.input-email { top: 414px; left: 567px; }
+.input-birthdate { top: 478px; left: 567px; }
 
 .btn-signup {
   width: 493px;

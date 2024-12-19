@@ -53,6 +53,13 @@ public class UserMapperRepositoryTest { // USER CRUD 테스트용 코드
         System.out.println(user);
     }
 
+    public static void selectUserByUsername(String username) {
+        System.out.println("selectUser(" + username + "): ");
+
+        User user = userDao.selectUserByUsername(username);
+        System.out.println(user);
+    }
+    
     public static void selectUserList() {
         System.out.println("selectUserList(): ");
         List<User> users = userDao.selectUserList();

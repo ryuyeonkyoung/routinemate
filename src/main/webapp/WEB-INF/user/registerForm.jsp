@@ -73,9 +73,9 @@ function userList(targetUri) {
     <label class="label-password-confirm">비밀번호 확인</label>
     <input type="password" name="password2" class="input-password-confirm" placeholder="비밀번호 입력" />
 
-    <label class="label-name">이름</label>
+    <!-- <label class="label-name">이름</label>
     <input type="text" name="username" class="input-name" placeholder="이름 입력" />
-
+ -->
     <label class="label-email">이메일</label>
     <input type="email" name="email" class="input-email" placeholder="이메일 입력" />
     
