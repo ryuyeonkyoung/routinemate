@@ -60,6 +60,8 @@ public class TaskController implements Controller {
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
             List<Task> tasks = taskManager.getTasksByUserId(userId);
+            
+            request.setAttribute("userId", userId);
             request.setAttribute("tasks", tasks);
             return "/routine_list.jsp";
         } catch (Exception e) {
