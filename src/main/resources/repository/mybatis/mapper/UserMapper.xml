@@ -35,6 +35,11 @@
 		WHERE user_id = #{userId}
 	</select>
 
+	<select id="selectUserByUsername" resultType="User">
+    	SELECT <include refid="UserBaseColumns" /> 
+    	FROM USERINFO WHERE name = #{username}
+	</select>
+	
 	<!-- 전체 사용자 정보 목록 검색 -->
 	<select id="selectUserList" resultType="User">
 		SELECT <include refid="UserBaseColumns" />
