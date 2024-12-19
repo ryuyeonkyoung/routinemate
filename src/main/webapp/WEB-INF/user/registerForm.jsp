@@ -84,10 +84,10 @@ function userList(targetUri) {
 
 	<div class="user-type">
         <label class="type-morning">
-          <input type="checkbox" class="checkbox-morning"  name="isMorningPerson" /> 아침형
+          <input type="checkbox" class="checkbox-morning"  name="isMorningPerson" value ="MORNING" /> 아침형
         </label>
         <label class="type-evening">
-          <input type="checkbox" class="checkbox-evening"  name="isMorningPerson" /> 저녁형
+          <input type="checkbox" class="checkbox-evening"  name="isMorningPerson" value ="EVENING" /> 저녁형
         </label>
 	</div>
 	 <button value="회원 가입" onClick="userCreate()" class="btn-signup">회원가입</button>
