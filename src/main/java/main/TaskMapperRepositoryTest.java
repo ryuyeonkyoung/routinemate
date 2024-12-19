@@ -11,47 +11,46 @@ public class TaskMapperRepositoryTest { // Task CRUD Test code
         System.out.println("TaskMapperRepositoryTest starts...");
         try {
             // Task create
-            addTask(1, 0, 0, "공복에 물 한잔", true);
-            addTask(1, 1, 1, "아침 체조", true);
-            addTask(1, 2, 2, "커피 마시기", false);
+            addTask(22, 0, "공복에 물 한잔", true);
+            addTask(22, 1, "아침 체조", true);
+            addTask(22, 2, "커피 마시기", false);
 
-            addTask(2, 3, 0, "낮잠 자기", true);
-            addTask(2, 4, 1, "독서하기", true);
-            addTask(2, 5, 2, "스트레칭 하기", false); 
+            addTask(23, 0, "낮잠 자기", true);
+            addTask(23, 1, "독서하기", true);
+            addTask(23, 2, "스트레칭 하기", false); 
             System.out.println();
 
             // Task update
-            updateTask(0, 0, "공복에 차 한잔", false);
-            updateTask(3, 0, "채소 섭취", false );
+            updateTask(21, 0, "공복에 차 한잔", false);
+            updateTask(24, 0, "채소 섭취", false );
             System.out.println();
 
             // Task remove
-            deleteTask(5);
+            deleteTask(21);
             System.out.println();
 
             // Task select: taskId로 task정보 보여주기
-            getTaskById(0);
-            getTaskById(3);
+            getTaskById(23);
+            getTaskById(24);
             
             // Task select: 전체 taskList 보여주기
             getAllTasks();
             System.out.println();
 
             // Task select: 특정 유저가 가진 task 목록 조회
-            getTasksByUserId(20220304); 
-            getTasksByUserId(20220305); 
+            getTasksByUserId(22); 
+            getTasksByUserId(23); 
         } finally {
             System.out.println();
         }
     }
 
     // Add Task
-    public static void addTask(int userId, int taskId, int order, String description, boolean isCompleted ) {
-        System.out.println("addTask(" + taskId + ", ...): ");
+    public static void addTask(int userId, int order, String description, boolean isCompleted ) {
+        System.out.println("addTask: ");
         
         Task task = new Task();
         task.setUserId(userId);
-        task.setTaskId(taskId);
         task.setOrder(order);
         task.setDescription(description);
         task.setCompleted(isCompleted); 

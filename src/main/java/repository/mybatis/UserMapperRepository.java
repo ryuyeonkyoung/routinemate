@@ -3,6 +3,7 @@ package repository.mybatis;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +14,7 @@ import repository.mybatis.mapper.UserMapper;
 import model.domain.User;
 
 public class UserMapperRepository {
+	private final String namespace = "repository.mybatis.mapper.UserMapper"; //추가한 코드
 	private SqlSessionFactory sqlSessionFactory;
 	
 	public UserMapperRepository() {
@@ -62,6 +64,25 @@ public class UserMapperRepository {
 			sqlSession.close();
 		}
 	}*/
+	public User selectUserWithTasks(int userId) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			return (User)sqlSession.selectOne(
+					namespace + ".selectUserWithTasks", userId);
+		} finally {
+			sqlSession.close();
+		}
+	}//추가한 코드
+	
+	public List<User> selectUserListWithTasks() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			return sqlSession.selectList(
+					namespace + ".selectUserListWithTasks");
+		} finally {
+			sqlSession.close();
+		}
+	}//추가한 코드
 	
 	public int createUser(User user) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
