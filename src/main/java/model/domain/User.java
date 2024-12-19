@@ -14,6 +14,7 @@ public class User implements Serializable{
     private Date birthDate;
     private boolean chronoType; // true: 아침형, false: 저녁형
     private String isMorningPerson; // true: 아침형, false: 저녁형
+	private List<Task> tasks;
 
     // 생성자
     public User(int userId, String password, String username, String email, Date birthDate, boolean chronoType, String isMorningPerson) {
@@ -100,12 +101,20 @@ public class User implements Serializable{
     		isMorningPerson = "EVENING";
     	}*/
         this.isMorningPerson = isMorningPerson;
-    }       
+    }
+    
+	public List<Task> getTasks() {
+		return tasks;
+	}
+	
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password + ", username=" + username + ", email=" + email
-				+ ", birthDate=" + birthDate + ", isMorningPerson=" + isMorningPerson + "]";
+				+ ", birthDate=" + birthDate + ", isMorningPerson=" + isMorningPerson + ", tasks="+ tasks +"]";
 	}
         
 }

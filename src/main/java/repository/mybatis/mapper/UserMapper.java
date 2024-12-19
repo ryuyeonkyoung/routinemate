@@ -19,4 +19,6 @@ public interface UserMapper {
     List<User> selectUserList();
     
     int existingUser(int userNo);
+    
+    
 }

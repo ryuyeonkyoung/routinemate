@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.domain.Task;
 import model.domain.User;
 import repository.mybatis.UserMapperRepository;
 
@@ -16,7 +17,7 @@ public class UserMapperRepositoryTest { // USER CRUD 테스트용 코드
         System.out.println("UserMapperRepositoryTest starts...");
         try {
             // user create
-            createUser("dongduk1234", "andy", "111@naver.com", true);
+            /*createUser("dongduk1234", "andy", "111@naver.com", true);
             createUser("rkskekfk1111", "ann", "222@naver.com", false);
             createUser("dhifho1357", "lisa", "333@naver.com", true);
             System.out.println();
@@ -40,6 +41,12 @@ public class UserMapperRepositoryTest { // USER CRUD 테스트용 코드
             // user select: userid로 사용자 존재여부 출력
             existingUser(1); // 사용자 존재 여부 확인
             existingUser(99999999); // 존재하지 않는 사용자 확인
+        	
+        	//select: 사용자 ID로 사용자 정보 및 해당 Task 목록을 조회
+        	selectUserWithTasks(22);
+        	
+        	//select: 전체 사용자 정보와 해당 Task 목록을 조회
+        	selectUserListWithTasks();*/
 
         } finally {
             System.out.println();
@@ -73,6 +80,41 @@ public class UserMapperRepositoryTest { // USER CRUD 테스트용 코드
         boolean exists = userDao.existingUser(userId);
         System.out.println(userId + (exists ? " 사용자 있음. " : " 사용자 없음."));
     }
+    
+	public static void selectUserWithTasks(int userId) {//추가한 코드
+        System.out.println("findCommentByPrimaryKeyCollection(" + userId + "): ");
+
+        User user = userDao.selectUserWithTasks(userId);
+		System.out.println(user);
+		
+		List<Task> tasks = user.getTasks();
+		System.out.println("- number of tasks: " + tasks.size());
+		System.out.print("- task IDs: ");
+		for (int i = 0; i < tasks.size(); i++) {
+			System.out.print(tasks.get(i).getTaskId() + ", ");
+		}
+		System.out.println();
+	}
+	
+	public static void selectUserListWithTasks() {//추가한 코드
+	    System.out.println("selectUserListWithTasks(): ");
+
+	    // 사용자 리스트를 가져옴
+	    List<User> users = userDao.selectUserListWithTasks();
+
+	    // 사용자와 각 사용자의 작업 출력
+	    for (User user : users) {
+	        System.out.println(user);
+
+	        List<Task> tasks = user.getTasks();
+	        System.out.println("- number of tasks: " + tasks.size());
+	        System.out.print("- task IDs: ");
+	        for (Task task : tasks) {
+	            System.out.print(task.getTaskId() + ", ");
+	        }
+	        System.out.println(); // 줄바꿈
+	    }
+	}
 
     public static void createUser(String password, String username, String email, boolean isMorningType) {
         System.out.println("createUser - 아이디 : " + username + ", 비밀번호 : " + password);
