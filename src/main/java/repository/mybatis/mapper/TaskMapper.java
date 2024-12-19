@@ -17,4 +17,6 @@ public interface TaskMapper {
     List<Task> getAllTasks();
     
     List<Task> getTasksByUserId(int userNo);
+    
+    Task getTaskByTaskId(int taskId);
 }

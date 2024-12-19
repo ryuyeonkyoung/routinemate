@@ -52,4 +52,8 @@ public class TaskManager {
     public List<Task> getTasksByUserId(int userId) throws SQLException {
         return taskMapperRepository.getTasksByUserId(userId);
     }
+    
+    public Task getTaskByTaskId(int taskId) throws SQLException {
+        return taskMapperRepository.getTaskByTaskId(taskId);
+    }
 }

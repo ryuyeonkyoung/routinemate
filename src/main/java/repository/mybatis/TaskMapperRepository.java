@@ -91,5 +91,14 @@ public class TaskMapperRepository {
             sqlSession.close();
         }
     }
+    
+    public Task getTaskByTaskId(int taskId) {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            return sqlSession.getMapper(TaskMapper.class).getTaskByTaskId(taskId);          
+        } finally {
+            sqlSession.close();
+        }
+    }
         
 }
