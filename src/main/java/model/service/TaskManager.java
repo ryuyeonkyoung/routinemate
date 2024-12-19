@@ -47,4 +47,9 @@ public class TaskManager {
     public List<Task> getAllTasks() throws SQLException {
         return taskMapperRepository.getAllTasks();
     }
+    
+    // user-task 가 1:N 연관관계여서 필요
+    public List<Task> getTasksByUserId(int userId) throws SQLException {
+        return taskMapperRepository.getTasksByUserId(userId);
+    }
 }
