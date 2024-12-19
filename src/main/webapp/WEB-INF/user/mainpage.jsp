@@ -21,7 +21,7 @@
 		<div class="dropdown-content">
 			<a href="<c:url value='/user/mypage' />">마이페이지</a>
 			<a href="<c:url value='/user/logout' />">로그아웃</a>
-			<p>id님 환영합니다.</p>
+			<p>${sessionScope.username}님 환영합니다.</p>
    		 </div>   
 		</div>   
     </nav>
