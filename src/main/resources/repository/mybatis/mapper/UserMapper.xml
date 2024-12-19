@@ -11,6 +11,43 @@
 		birthDate AS birthDate,
 		chronoType AS isMorningPerson
 	</sql>
+	
+	<!-- 사용자 정보와 그에 연관된 Task 정보를 매핑 -->
+    <resultMap id="UserWithTasks" type="User">
+        <id property="userId" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="username" column="name"/>
+        <result property="email" column="email"/>
+        <result property="birthDate" column="birthDate"/>
+        <result property="isMorningPerson" column="chronoType"/>
+
+        <!-- Task 컬렉션 -->
+        <!-- User과 task가 1:N이여서 collection 엘리먼트 사용 -->
+        <collection property="tasks" ofType="Task">
+            <result property="taskId" column="task_id"/>
+            <result property="order" column="task_order"/>
+            <result property="description" column="description"/>
+            <result property="isCompleted" column="isCompleted"/>
+        </collection>
+    </resultMap>
+
+    <!-- 사용자 ID로 사용자 정보 및 해당 Task 목록을 조회 -->
+    <select id="selectUserWithTasks" parameterType="int" resultMap="UserWithTasks">
+        SELECT u.user_id, u.password, u.name, u.email, u.birthDate, u.chronoType, 
+               t.task_id, t.task_order, t.description, t.isCompleted
+        FROM USERINFO u
+        LEFT JOIN TASK t ON u.user_id = t.user_id
+        WHERE u.user_id = #{userId}
+    </select>
+
+    <!-- 전체 사용자 정보와 해당 Task 목록을 조회 -->
+    <select id="selectUserListWithTasks" resultMap="UserWithTasks">
+        SELECT u.user_id, u.password, u.name, u.email, u.birthDate, u.chronoType, 
+               t.task_id, t.task_order, t.description, t.isCompleted
+        FROM USERINFO u
+        LEFT JOIN TASK t ON u.user_id = t.user_id
+        ORDER BY u.user_id
+    </select>
 
 	<insert id="createUser" parameterType="User">
 		INSERT INTO USERINFO (user_id, password, name, email, birthDate, chronoType)
