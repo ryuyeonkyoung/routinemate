@@ -13,4 +13,4 @@
 </body>
 </html> --%>
 
-<% response.sendRedirect(request.getContextPath() + "/user/list"); %>
+<% response.sendRedirect(request.getContextPath() + "/user/login/form"); %>

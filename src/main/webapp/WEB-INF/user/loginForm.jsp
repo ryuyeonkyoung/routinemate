@@ -51,7 +51,7 @@ function userCreate(targetUri) {
       <div class="id-section">
         <div class="id-box"></div>
         <label for="login-id" class="id-label"></label>
-        <input type="text" id="login-id" name="userId" class="id-input" placeholder="ID" required />
+        <input type="text" id="login-id" name="username" class="id-input" placeholder="ID" required />
       </div>
       
       <!-- 패스워드 섹션 -->

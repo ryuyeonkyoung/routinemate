@@ -73,9 +73,9 @@ function userList(targetUri) {
     <label class="label-password-confirm">비밀번호 확인</label>
     <input type="password" name="password2" class="input-password-confirm" placeholder="비밀번호 입력" />
 
-    <label class="label-name">이름</label>
+    <!-- <label class="label-name">이름</label>
     <input type="text" name="username" class="input-name" placeholder="이름 입력" />
-
+ -->
     <label class="label-email">이메일</label>
     <input type="email" name="email" class="input-email" placeholder="이메일 입력" />
     
@@ -84,10 +84,10 @@ function userList(targetUri) {
 
 	<div class="user-type">
         <label class="type-morning">
-          <input type="checkbox" class="checkbox-morning"  name="isMorningPerson" /> 아침형
+          <input type="checkbox" class="checkbox-morning"  name="isMorningPerson" value ="MORNING" /> 아침형
         </label>
         <label class="type-evening">
-          <input type="checkbox" class="checkbox-evening"  name="isMorningPerson" /> 저녁형
+          <input type="checkbox" class="checkbox-evening"  name="isMorningPerson" value ="EVENING" /> 저녁형
         </label>
 	</div>
 	 <button value="회원 가입" onClick="userCreate()" class="btn-signup">회원가입</button>

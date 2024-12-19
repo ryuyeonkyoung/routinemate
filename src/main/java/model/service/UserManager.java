@@ -53,21 +53,20 @@ public class UserManager {
         return userMapperRepository.removeUser(userId);
     }
 
-    public User findUser(int userId) throws SQLException, UserNotFoundException {
-        User user = userMapperRepository.selectUser(userId);
+    public User findUser(String username) throws SQLException, UserNotFoundException {
+        User user = userMapperRepository.selectUserByUsername(username);
         if (user == null) {
-            throw new UserNotFoundException(userId + "는 존재하지 않는 아이디입니다.");
+            throw new UserNotFoundException(username + "는 존재하지 않는 아이디입니다.");
         }       
         return user;
     }
-
     public List<User> findUserList() throws SQLException {
         return userMapperRepository.selectUserList();
     }
 
-    public boolean login(int userId, String password)
+    public boolean login(String username, String password)
         throws SQLException, UserNotFoundException, PasswordMismatchException {
-        User user = findUser(userId);
+        User user = findUser(username);
         
         if (user == null) {
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");

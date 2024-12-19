@@ -34,7 +34,16 @@ public class UserMapperRepository {
 			sqlSession.close();
 		}
 	}
-
+	
+	//username으로 찾기
+	public User selectUserByUsername(String username) { 
+        SqlSession sqlSession = sqlSessionFactory.openSession(); 
+        try { 
+            return sqlSession.getMapper(UserMapper.class).selectUserByUsername(username); 
+        }finally { 
+            sqlSession.close(); 
+        } 
+   }
 	public List<User> selectUserList() {
 	    SqlSession sqlSession = sqlSessionFactory.openSession();
 	    try {
