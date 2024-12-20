@@ -13,20 +13,29 @@
         <span class="nav-statistics">월간통계</span>
         <span class="nav-routine-recommendations">루틴추천</span>
         <span class="nav-routine-sharing">루틴공유</span>
-        <span class="nav-mypage">mypage</span>
-        
         
 		<div class = "dropdown">
-		<span class="nav-login">홈</span>
+		<span class="nav-login">${sessionScope.username}</span>
 		<div class="dropdown-content">
-			<a href="<c:url value='/user/mypage' />">마이페이지</a>
-			<a href="<c:url value='/user/logout' />">로그아웃</a>
-			<p>${sessionScope.username}님 환영합니다.</p>
-   		 </div>   
+			<c:choose>
+                <%-- 로그인 된 경우 --%>
+                <c:when test="${not empty sessionScope.username}">
+                    <a href="<c:url value='/user/mypage' />">마이페이지</a>
+                    <a href="<c:url value='/user/logout' />">로그아웃</a>
+                    <p>${sessionScope.username}님 환영합니다.</p>
+                </c:when>
+                <%-- 로그인 된 경우 --%>
+                <c:otherwise>
+                    <a href="<c:url value='/user/login' />">로그인</a>
+                </c:otherwise>
+            </c:choose>
+   		</div>   
 		</div>   
     </nav>
     
-    <h2 class="app-name">루틴메이트</h2>
+    <a href="/UserMan3c//user/mainpage" class="app-link">
+    		<h2 class="app-name">루틴메이트</h2>
+	</a>
 
 
     <section class="appexplain">
