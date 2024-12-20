@@ -36,6 +36,7 @@ public class RequestMapping {
         mappings.put("/mypage/create", new TaskController());         // 할 일 생성 폼
         mappings.put("/mypage/update", new TaskController());         // 할 일 수정 폼
         mappings.put("/mypage/delete", new TaskController());         // 할 일 삭제 폼
+        mappings.put("/mypage/view", new TaskController());
 
 //        // 사용자 정보 수정 폼 요청과 수정 요청 처리 병합
 ////      mappings.put("/user/update/form", new UpdateUserFormController());
