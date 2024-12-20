@@ -25,59 +25,44 @@ public class PostMapperRepository {
     }
 
     public int createPost(Post post) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(PostMapper.class).createPost(post);
             if (result > 0) {
                 sqlSession.commit();
             }
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
 
     public int updatePost(Post post) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(PostMapper.class).updatePost(post);
             if (result > 0) {
                 sqlSession.commit();
             }
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
 
     public int deletePost(int postId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(PostMapper.class).deletePost(postId);
             if (result > 0) {
                 sqlSession.commit();
             }
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
 
     public Post getPostById(int postId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(PostMapper.class).getPostById(postId);
-        } finally {
-            sqlSession.close();
         }
     }
 
     public List<Post> getPostList() {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(PostMapper.class).getPostList();
-        } finally {
-            sqlSession.close();
         }
     }
 }
