@@ -73,8 +73,9 @@
 	</select>
 
 	<select id="selectUserByUsername" resultType="User">
-    	SELECT <include refid="UserBaseColumns" /> 
-    	FROM USERINFO WHERE name = #{username}
+	    	SELECT <include refid="UserBaseColumns" /> 
+	    	FROM USERINFO WHERE name = #{username}
+	    AND ROWNUM = 1
 	</select>
 	
 	<!-- 전체 사용자 정보 목록 검색 -->
