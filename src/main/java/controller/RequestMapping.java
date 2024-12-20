@@ -32,11 +32,11 @@ public class RequestMapping {
         mappings.put("/user/register", new RegisterUserController());
 //
         
-        mappings.put("/mypage", new TaskController());                // 할 일 목록 조회
-        mappings.put("/mypage/create", new TaskController());         // 할 일 생성 폼
-        mappings.put("/mypage/update", new TaskController());         // 할 일 수정 폼
-        mappings.put("/mypage/delete", new TaskController());         // 할 일 삭제 폼
-        mappings.put("/mypage/view", new TaskController());
+        mappings.put("/user/mypage", new TaskController());
+        mappings.put("/user/mypage/view", new TaskController()); 
+        mappings.put("/user/mypage/create", new TaskController()); 
+        mappings.put("/user/mypage/update", new TaskController()); 
+        mappings.put("/user/mypage/delete", new TaskController()); 
 
 //        // 사용자 정보 수정 폼 요청과 수정 요청 처리 병합
 ////      mappings.put("/user/update/form", new UpdateUserFormController());
