@@ -29,11 +29,17 @@ public class RequestMapping {
         mappings.put("/user/mainpage", new ForwardController("/user/mainpage.jsp")); 
         
         // 마이페이지
-        mappings.put("/user/mypage", new TaskController());
-        mappings.put("/user/mypage/view", new TaskController()); 
-        mappings.put("/user/mypage/create", new TaskController()); 
-        mappings.put("/user/mypage/update", new TaskController()); 
-        mappings.put("/user/mypage/delete", new TaskController()); 
+        //mappings.put("/user/mypage", new TaskController());
+        //mappings.put("/mypage/view", new TaskController()); 
+        //mappings.put("/user/mypage/create", new TaskController()); 
+        //mappings.put("/user/mypage/update", new TaskController()); 
+        //mappings.put("/user/mypage/delete", new TaskController()); 
+        
+        mappings.put("/mypage", new TaskController());                // 할 일 목록 조회
+        mappings.put("/mypage/create", new TaskController());         // 할 일 생성 폼
+        mappings.put("/mypage/update", new TaskController());         // 할 일 수정 폼
+        mappings.put("/mypage/delete", new TaskController());         // 할 일 삭제 폼
+        mappings.put("/mypage/view", new TaskController());
         
 //       // 회원 가입 폼 요청과 가입 요청 처리 병합 (폼에 커뮤니티 선택 메뉴 추가를 위함)
         mappings.put("/user/register/form", new ForwardController("/user/registerForm.jsp"));

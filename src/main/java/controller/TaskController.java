@@ -1,15 +1,20 @@
 package controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import model.domain.Task;
+import model.domain.User;
 import model.service.TaskManager;
+import model.service.UserManager;
 
 public class TaskController implements Controller {
     private static final Logger log = LoggerFactory.getLogger(TaskController.class);
@@ -17,30 +22,29 @@ public class TaskController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String action = request.getPathInfo();
+        String uri = request.getRequestURI();  // 전체 URI 가져오기
+        String contextPath = request.getContextPath();  // Context Path 가져오기
+        String action = uri.substring(contextPath.length());  // /mypage 뒤의 경로만 추출
 
-        if (action == null) {
-            response.sendRedirect("/mypage");
-            return null;
-        }
-        
+        log.debug("Request URI: {}", uri);
+        log.debug("Context Path: {}", contextPath);
+        log.debug("Action: {}", action);
+
         if (request.getMethod().equals("GET")) {
             // GET 요청 처리
             log.debug("GET Request: {}", action);
 
             switch (action) {
-                case "/mypage":
-                    return "/mypage/routine_list.jsp";
                 case "/mypage/view":
-                    return viewTasks(request);
+                    return viewTasks(request, response);
                 case "/mypage/create":
-                    return "/user/routine_createForm.jsp";
+                    return "/mypage/routine_createForm.jsp";
                 case "/mypage/update":
                     return showUpdateForm(request);
                 case "/mypage/delete":
                     return showDeleteForm(request);
                 default:
-                    response.sendRedirect("/mypage/");
+                    response.sendRedirect("/mypage/");  // 잘못된 경로 시 기본 페이지로 리다이렉션
                     return null;
             }
         } else if (request.getMethod().equals("POST")) {
@@ -64,16 +68,35 @@ public class TaskController implements Controller {
     }
 
     // 할일 상세조회
-    private String viewTasks(HttpServletRequest request) throws Exception {
+    public String viewTasks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            // 세션에서 username 가져오기
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("username") == null) {
+                // 세션이 없거나 username이 없으면 로그인 페이지로 리다이렉트
+                response.sendRedirect(request.getContextPath() + "/user/login");
+                return null;
+            }
+            String username = (String) session.getAttribute("username");
+
+            // 데이터베이스에서 userId 조회
+            UserManager userManager = UserManager.getInstance();
+            User user = userManager.findUser(username);
+            int userId = user.getUserId(); // username으로 조회된 userId
+
+            // 할 일 목록 가져오기
+            TaskManager taskManager = TaskManager.getInstance();
             List<Task> tasks = taskManager.getTasksByUserId(userId);
+
+            // JSP로 데이터 전달
+            request.setAttribute("userId", userId);
             request.setAttribute("tasks", tasks);
-            return "/mypage/routine_list.jsp";
         } catch (Exception e) {
-            log.error("routine_list.jsp에서 오류발생 : ", e);
-            return "redirect:/error";
+            e.printStackTrace();
+            request.setAttribute("error", "할 일을 불러오는 도중 문제가 발생했습니다.");
         }
+
+        return "/mypage/routine_list.jsp"; // 할 일을 출력할 JSP로 포워드
     }
 
     private String showUpdateForm(HttpServletRequest request) throws Exception {
