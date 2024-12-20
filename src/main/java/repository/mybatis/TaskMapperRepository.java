@@ -31,6 +31,7 @@ public class TaskMapperRepository {
             int result = sqlSession.getMapper(TaskMapper.class).addTask(task);
             if (result > 0) {
                 sqlSession.commit();
+                sqlSession.flushStatements();  // 변경 사항을 DB에 즉시 반영
             } 
             return result;
         }
@@ -41,6 +42,7 @@ public class TaskMapperRepository {
             int result = sqlSession.getMapper(TaskMapper.class).updateTask(task);
             if (result > 0) {
                 sqlSession.commit();
+                sqlSession.flushStatements();  // 변경 사항을 DB에 즉시 반영
             } 
             return result;
         }
@@ -51,6 +53,7 @@ public class TaskMapperRepository {
             int result = sqlSession.getMapper(TaskMapper.class).deleteTask(taskId);
             if (result > 0) {
                 sqlSession.commit();
+                sqlSession.flushStatements();  // 변경 사항을 DB에 즉시 반영
             } 
             return result;
         }
@@ -58,6 +61,13 @@ public class TaskMapperRepository {
     
     public Task getTaskById(int taskId) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            // 1차 캐시 비우기 (선택 사항)
+            sqlSession.clearCache(); 
+            
+            // 2차 캐시 비우기
+            sqlSession.getConfiguration().getCache("Task").clear(); 
+
+            // 데이터 조회
             return sqlSession.getMapper(TaskMapper.class).getTaskByTaskId(taskId);          
         }
     }

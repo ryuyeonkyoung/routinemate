@@ -11,6 +11,7 @@
     <div class="form-container">
         <h1>할 일 수정</h1>
         <form action="<c:url value='/mypage/update' />" method="post">
+    <input type="hidden" name="userId" value="${task.userId}" />
     <input type="hidden" name="taskId" value="${task.taskId}" />
     <label for="description">할 일 설명:</label>
     <input type="text" id="description" name="description" value="${task.description}" />
