@@ -48,5 +48,10 @@
 		WHERE user_id = #{userId}
 		ORDER BY task_order
 	</select>
+	<select id="getTaskByTaskId" parameterType="int" resultType="Task">
+		SELECT <include refid="TaskBaseColumns" />
+		FROM Task
+		WHERE task_id = #{taskId}
+	</select>
 	
 </mapper>
