@@ -10,6 +10,9 @@
 <title>할 일 목록</title>
 </head>
 <body>
+	<a href="/UserMan3c//user/mainpage" class="app-link">
+    		<h1 class="app-name">루틴메이트</h1>
+	</a>
     <div class="list-container">
     <h1>${sessionScope.username}님의 할 일 목록</h1>
     <p>현재 사용자 ID: ${userId}</p>
