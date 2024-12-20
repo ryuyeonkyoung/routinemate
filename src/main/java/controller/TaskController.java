@@ -132,7 +132,7 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.addTask(task);
-            return "redirect:/mypage/create?userId=" + userId;
+            return "redirect:/mypage/view?userId=" + userId;
         } catch (Exception e) {
             log.error("Task 생성 실패", e);
             request.setAttribute("task", new Task());
@@ -150,7 +150,7 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.updateTask(task);
-            return "redirect:/mypage/update?userId=" + userId;
+            return "redirect:/mypage/view?userId=" + userId;
         } catch (Exception e) {
             log.error("Task 업데이트 실패", e);
             request.setAttribute("task", new Task());
@@ -163,7 +163,7 @@ public class TaskController implements Controller {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             taskManager.removeTask(taskId);
-            return "redirect:/mypage/delete?userId=" + userId;
+            return "redirect:/mypage/view?userId=" + userId;
         } catch (Exception e) {
             log.error("Task 삭제 실패", e);
             return "redirect:/error";
