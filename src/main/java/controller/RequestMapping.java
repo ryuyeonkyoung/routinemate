@@ -22,35 +22,18 @@ public class RequestMapping {
         mappings.put("/user/login/form", new ForwardController("/user/loginForm.jsp"));
         mappings.put("/user/login", new LoginController());
         mappings.put("/user/logout", new LogoutController());
-//        mappings.put("/user/list", new ListUserController());
-//        mappings.put("/user/view", new ViewUserController());
-        mappings.put("/user/mainpage", new ForwardController("/user/mainpage.jsp")); 
-//        mappings.put("/user/mypage", new ForwardController("/user/mypage.jsp")); 
-//        // 회원 가입 폼 요청과 가입 요청 처리 병합 (폼에 커뮤니티 선택 메뉴 추가를 위함)
-        mappings.put("/user/register/form", new ForwardController("/user/registerForm.jsp"));
-////      mappings.put("/user/register", new RegisterUserController());
-        mappings.put("/user/register", new RegisterUserController());
-//
         
-        mappings.put("/mypage", new TaskController());
-        mappings.put("/mypage/view", new TaskController()); 
-        mappings.put("/mypage/create", new TaskController()); 
-        mappings.put("/mypage/update", new TaskController()); 
-        mappings.put("/mypage/delete", new TaskController()); 
-
-//        // 사용자 정보 수정 폼 요청과 수정 요청 처리 병합
-////      mappings.put("/user/update/form", new UpdateUserFormController());
-////      mappings.put("/user/update", new UpdateUserController());        
-//        mappings.put("/user/update", new UpdateUserController());
-//        
-//        mappings.put("/user/delete", new DeleteUserController());
-//        
-//        // 커뮤니티 관련 request URI 추가
-//        mappings.put("/community/list", new ListCommunityController());
-//        mappings.put("/community/view", new ViewCommunityController());
-//        mappings.put("/community/create/form", new ForwardController("/community/creationForm.jsp"));
-//        mappings.put("/community/create", new CreateCommunityController());
-//        mappings.put("/community/update", new UpdateCommunityController());
+        // 마이페이지 관련 경로 매핑
+        mappings.put("/mypage", new TaskController());          // 할 일 목록
+        mappings.put("/mypage/view", new TaskController());     // 할 일 보기
+        mappings.put("/mypage/create", new TaskController());   // 할 일 추가
+        mappings.put("/mypage/update", new TaskController());   // 할 일 수정
+        mappings.put("/mypage/delete", new TaskController());   // 할 일 삭제
+        
+        // 유저 관련 경로 매핑
+        mappings.put("/user/mainpage", new ForwardController("/user/mainpage.jsp"));
+        mappings.put("/user/register/form", new ForwardController("/user/registerForm.jsp"));
+        mappings.put("/user/register", new RegisterUserController());
         
         logger.info("Initialized Request Mapping!");
     }
