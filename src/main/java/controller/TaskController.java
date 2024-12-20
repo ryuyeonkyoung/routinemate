@@ -22,6 +22,7 @@ public class TaskController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         String uri = request.getRequestURI();  // 전체 URI 가져오기
         String contextPath = request.getContextPath();  // Context Path 가져오기
         String action = uri.substring(contextPath.length());  // /mypage 뒤의 경로만 추출
@@ -29,6 +30,11 @@ public class TaskController implements Controller {
         log.debug("Request URI: {}", uri);
         log.debug("Context Path: {}", contextPath);
         log.debug("Action: {}", action);
+
+        if (action == null) {
+           response.sendRedirect("/mypage");
+           return null;
+        }
 
         if (request.getMethod().equals("GET")) {
             // GET 요청 처리
