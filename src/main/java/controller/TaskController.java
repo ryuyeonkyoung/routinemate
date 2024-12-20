@@ -76,6 +76,11 @@ public class TaskController implements Controller {
     // 할일 상세조회
     public String viewTasks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
+            // 캐시 비활성화
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0);
+            
             // 세션에서 username 가져오기
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("username") == null) {
@@ -88,15 +93,23 @@ public class TaskController implements Controller {
             // 데이터베이스에서 userId 조회
             UserManager userManager = UserManager.getInstance();
             User user = userManager.findUser(username);
+            // username이 같으면 오류 생길 수 있음. 추후 수정 요망
             int userId = user.getUserId(); // username으로 조회된 userId
 
             // 할 일 목록 가져오기
             TaskManager taskManager = TaskManager.getInstance();
             List<Task> tasks = taskManager.getTasksByUserId(userId);
+            log.debug("Tasks fetched from DB: {}", tasks);
 
             // JSP로 데이터 전달
             request.setAttribute("userId", userId);
             request.setAttribute("tasks", tasks);
+            
+            // 캐시 버스팅 URI
+//            String newURI = "/mypage/routine_list.jsp?_ts=" + System.currentTimeMillis();
+//            request.getRequestDispatcher(newURI).forward(request, response);
+//            return null;
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "할 일을 불러오는 도중 문제가 발생했습니다.");
@@ -157,7 +170,7 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.updateTask(task);
-            return "redirect:/mypage/view";
+            return "redirect:/mypage/view?userId=" + userId;
         } catch (Exception e) {
             log.error("Task 업데이트 실패", e);
             request.setAttribute("task", new Task());
@@ -170,7 +183,7 @@ public class TaskController implements Controller {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             taskManager.removeTask(taskId);
-            return "redirect:/mypage/view";
+            return "redirect:/mypage/view?userId=" + userId;
         } catch (Exception e) {
             log.error("Task 삭제 실패", e);
             return "redirect:/error";
