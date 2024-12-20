@@ -29,7 +29,8 @@ public class RequestMapping {
         mappings.put("/user/mainpage", new ForwardController("/user/mainpage.jsp")); 
         
         // 마이페이지
-        mappings.put("/user/mypage", new TaskController()); 
+        mappings.put("/user/mypage", new TaskController());
+        mappings.put("/user/mypage/view", new TaskController()); 
         mappings.put("/user/mypage/create", new TaskController()); 
         mappings.put("/user/mypage/update", new TaskController()); 
         mappings.put("/user/mypage/delete", new TaskController()); 

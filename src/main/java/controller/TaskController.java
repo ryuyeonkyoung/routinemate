@@ -25,9 +25,11 @@ public class TaskController implements Controller {
 
             switch (action) {
                 case "/mypage":
+                    return "/user/mypage.jsp";
+                case "/mypage/view":
                     return viewTasks(request);
                 case "/mypage/create":
-                    return "/routine_createForm.jsp";
+                    return "/user/routine_createForm.jsp";
                 case "/mypage/update":
                     return showUpdateForm(request);
                 case "/mypage/delete":
@@ -53,9 +55,10 @@ public class TaskController implements Controller {
             }
         }
 
-        return null; // 기본값
+        return null;
     }
 
+    // 할일 상세조회
     private String viewTasks(HttpServletRequest request) throws Exception {
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
