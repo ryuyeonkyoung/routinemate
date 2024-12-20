@@ -31,7 +31,9 @@ function userCreate(targetUri) {
 <body>
 <div class="signup-container">
     <!-- 메인 제목 -->
-    <span class="main-title">루틴메이트</span>
+    <a href="/UserMan3c/user/mainpage" class="app-link">
+    		<span class="main-title">루틴메이트</span>
+	</a>
     
     <!-- 메뉴 섹션 -->
     <div class="menu">
