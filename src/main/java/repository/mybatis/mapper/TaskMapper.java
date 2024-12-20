@@ -12,11 +12,9 @@ public interface TaskMapper {
     
     int deleteTask(int taskNo);
     
-    Task getTaskById(int taskNo);
+    Task getTaskByTaskId(int taskNo);
     
     List<Task> getAllTasks();
     
     List<Task> getTasksByUserId(int userNo);
-    
-    Task getTaskByTaskId(int taskId);
 }

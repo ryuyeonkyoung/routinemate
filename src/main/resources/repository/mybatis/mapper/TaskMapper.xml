@@ -28,18 +28,11 @@
 	</delete>
 	
 	<!-- Task ID로 read -->
-	<select id="getTaskById" parameterType="int" resultType="Task">
+	<select id="getTaskByTaskId" parameterType="int" resultType="Task">
 		SELECT <include refid="TaskBaseColumns" />
 		FROM Task
 		WHERE task_id = #{taskId}
 	</select>
-	
-	<!-- Task ID로 read -->
-    <select id="getTaskByTaskId" parameterType="int" resultType="Task">
-        SELECT <include refid="TaskBaseColumns" />
-        FROM Task
-        WHERE task_id = #{taskId}
-    </select>
 	
 	<!-- 모든 Task read : 필요한가 여쭙기-->
 	<select id="getAllTasks" resultType="Task">
