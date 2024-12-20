@@ -18,5 +18,5 @@ public interface TaskMapper {
     
     List<Task> getTasksByUserId(int userNo);
     
-    Task getTaskByTaskId(int taskNo);
+    Task getTaskByTaskId(int taskId);
 }
