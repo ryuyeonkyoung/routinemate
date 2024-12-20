@@ -10,7 +10,7 @@
 <body>
     <div class="form-container">
         <h1>할 일 추가</h1>
-        <form action="${pageContext.request.contextPath}/mypage/create" method="POST">
+        <form action="<c:url value='/mypage/create' />" method="POST">
             <input type="hidden" name="userId" value="${userId}" />
 
             <label for="description">설명</label>

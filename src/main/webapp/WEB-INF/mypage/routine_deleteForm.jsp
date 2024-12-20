@@ -11,7 +11,7 @@
     <div class="form-container">
         <h1>할 일 삭제</h1>
         <p>정말로 이 할 일을 삭제하시겠습니까?</p>
-        <form action="${pageContext.request.contextPath}/mypage/delete" method="POST">
+        <form action="<c:url value='/mypage/delete' />" method="POST">
             <input type="hidden" name="taskId" value="${task.taskId}" />
             <input type="hidden" name="userId" value="${task.userId}" />
             <button type="submit">삭제</button>

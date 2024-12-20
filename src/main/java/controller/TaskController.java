@@ -35,7 +35,7 @@ public class TaskController implements Controller {
             log.debug("GET Request: {}", action);
 
             switch (action) {
-                case "/mypage":
+                case "/mypage/view":
                     return viewTasks(request, response);
                 case "/mypage/create":
                     return "/mypage/routine_createForm.jsp";
@@ -142,7 +142,7 @@ public class TaskController implements Controller {
 
     private String updateTask(HttpServletRequest request) throws Exception {
         try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            //int userId = Integer.parseInt(request.getParameter("userId"));
             Task task = new Task();
             task.setTaskId(Integer.parseInt(request.getParameter("taskId")));
             task.setDescription(request.getParameter("description"));
@@ -150,7 +150,7 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.updateTask(task);
-            return "redirect:/mypage/view?userId=" + userId;
+            return "redirect:/mypage/view";
         } catch (Exception e) {
             log.error("Task 업데이트 실패", e);
             request.setAttribute("task", new Task());
@@ -160,10 +160,10 @@ public class TaskController implements Controller {
 
     private String deleteTask(HttpServletRequest request) throws Exception {
         try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            //int userId = Integer.parseInt(request.getParameter("userId"));
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             taskManager.removeTask(taskId);
-            return "redirect:/mypage/view?userId=" + userId;
+            return "redirect:/mypage/view";
         } catch (Exception e) {
             log.error("Task 삭제 실패", e);
             return "redirect:/error";
