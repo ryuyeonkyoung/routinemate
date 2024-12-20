@@ -17,12 +17,14 @@ public class TaskController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String action = request.getPathInfo();
+        String requestURI = request.getRequestURI();
+        String action = requestURI.substring(requestURI.lastIndexOf("/mypage"));
 
-        if (action == null) {
-            response.sendRedirect("/mypage");
-            return null;
-        }
+        System.out.println(action);
+//        if (action == null) {
+//            response.sendRedirect("/mypage");
+//            return null;
+//        }
         
         if (request.getMethod().equals("GET")) {
             // GET 요청 처리
@@ -34,7 +36,7 @@ public class TaskController implements Controller {
                 case "/mypage/view":
                     return viewTasks(request);
                 case "/mypage/create":
-                    return "/user/routine_createForm.jsp";
+                    return "/mypage/routine_createForm.jsp";
                 case "/mypage/update":
                     return showUpdateForm(request);
                 case "/mypage/delete":
