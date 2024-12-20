@@ -25,7 +25,7 @@ public class TaskController implements Controller {
 
             switch (action) {
                 case "/mypage":
-                    return "/user/mypage.jsp";
+                    return "/mypage/routine_list.jsp";
                 case "/mypage/view":
                     return viewTasks(request);
                 case "/mypage/create":
@@ -64,7 +64,7 @@ public class TaskController implements Controller {
             int userId = Integer.parseInt(request.getParameter("userId"));
             List<Task> tasks = taskManager.getTasksByUserId(userId);
             request.setAttribute("tasks", tasks);
-            return "/routine_list.jsp";
+            return "/mypage/routine_list.jsp";
         } catch (Exception e) {
             log.error("routine_list.jsp에서 오류발생 : ", e);
             return "redirect:/error";
@@ -76,7 +76,7 @@ public class TaskController implements Controller {
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             Task task = taskManager.getTaskByTaskId(taskId);
             request.setAttribute("task", task);
-            return "/routine_updateForm.jsp";
+            return "/mypage/routine_updateForm.jsp";
         } catch (Exception e) {
             log.error("routine.updateForm.jsp에서 오류발생 : ", e);
             return "redirect:/error";
@@ -88,7 +88,7 @@ public class TaskController implements Controller {
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             Task task = taskManager.getTaskByTaskId(taskId);
             request.setAttribute("task", task);
-            return "/routine_deleteForm.jsp";
+            return "/mypage/routine_deleteForm.jsp";
         } catch (Exception e) {
             log.error("routine.deleteForm.jsp에서 오류발생", e);
             return "redirect:/error";
@@ -105,11 +105,11 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.addTask(task);
-            return "redirect:/mypage/view?userId=" + userId;
+            return "redirect:/mypage/view";
         } catch (Exception e) {
             log.error("Task 생성 실패", e);
             request.setAttribute("task", new Task());
-            return "/routine_createForm.jsp";
+            return "/mypage/routine_createForm.jsp";
         }
     }
 
@@ -123,11 +123,11 @@ public class TaskController implements Controller {
             task.setCompleted(Boolean.parseBoolean(request.getParameter("isCompleted")));
 
             taskManager.updateTask(task);
-            return "redirect:/mypage/view?userId=" + userId;
+            return "redirect:/mypage/view";
         } catch (Exception e) {
             log.error("Task 업데이트 실패", e);
             request.setAttribute("task", new Task());
-            return "/routine_updateForm.jsp";
+            return "/mypage/routine_updateForm.jsp";
         }
     }
 
@@ -136,7 +136,7 @@ public class TaskController implements Controller {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int taskId = Integer.parseInt(request.getParameter("taskId"));
             taskManager.removeTask(taskId);
-            return "redirect:/mypage/view?userId=" + userId;
+            return "redirect:/mypage/view";
         } catch (Exception e) {
             log.error("Task 삭제 실패", e);
             return "redirect:/error";
