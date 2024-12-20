@@ -68,7 +68,7 @@ public class TaskMapperRepository {
     public Task getTaskById(int taskId) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            return sqlSession.getMapper(TaskMapper.class).getTaskById(taskId);          
+            return sqlSession.getMapper(TaskMapper.class).getTaskByTaskId(taskId);          
         } finally {
             sqlSession.close();
         }
