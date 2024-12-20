@@ -151,10 +151,9 @@ body {
     font-weight: regular;
     font-size: 22px;
   }
-  .nav-statistics { left: 0px; }
-  .nav-routine-recommendations { left: 170px; }
-  .nav-routine-sharing { left: 340px; }
-  .nav-mypage { left: 510px; }
+  .nav-statistics { left: 170px; }
+  .nav-routine-recommendations { left: 340px; }
+  .nav-routine-sharing { left: 510px; }
   .nav-login { left: 680px; }
   
   .app-name {
