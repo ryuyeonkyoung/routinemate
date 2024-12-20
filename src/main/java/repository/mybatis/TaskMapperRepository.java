@@ -27,77 +27,56 @@ public class TaskMapperRepository {
     }
     
     public int addTask(Task task) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(TaskMapper.class).addTask(task);
             if (result > 0) {
                 sqlSession.commit();
             } 
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
 
     public int updateTask(Task task) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(TaskMapper.class).updateTask(task);
             if (result > 0) {
                 sqlSession.commit();
             } 
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
     
     public int deleteTask(int taskId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             int result = sqlSession.getMapper(TaskMapper.class).deleteTask(taskId);
             if (result > 0) {
                 sqlSession.commit();
             } 
             return result;
-        } finally {
-            sqlSession.close();
         }
     }
     
     public Task getTaskById(int taskId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(TaskMapper.class).getTaskByTaskId(taskId);          
-        } finally {
-            sqlSession.close();
         }
     }
     
     public List<Task> getAllTasks() {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(TaskMapper.class).getAllTasks();
-        } finally {
-            sqlSession.close();
         }
     }
     
     public List<Task> getTasksByUserId(int userId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(TaskMapper.class).getTasksByUserId(userId);
-        } finally {
-            sqlSession.close();
         }
     }
     
     public Task getTaskByTaskId(int taskId) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             return sqlSession.getMapper(TaskMapper.class).getTaskByTaskId(taskId);          
-        } finally {
-            sqlSession.close();
         }
     }
         
