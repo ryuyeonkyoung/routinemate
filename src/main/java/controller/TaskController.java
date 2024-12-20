@@ -19,6 +19,11 @@ public class TaskController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String action = request.getPathInfo();
 
+        if (action == null) {
+            response.sendRedirect("/mypage");
+            return null;
+        }
+        
         if (request.getMethod().equals("GET")) {
             // GET 요청 처리
             log.debug("GET Request: {}", action);
